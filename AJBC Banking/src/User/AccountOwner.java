@@ -7,6 +7,7 @@ import java.util.Scanner;
 
 import Account.Account;
 import ActivityData.ActivityData;
+import DataBase.DB;
 import Menu.Menu;
 import StaticScanner.StaticScanner;
 
@@ -97,14 +98,32 @@ public class AccountOwner extends Person {
 		
 		if(account.withdrawalCash(amount)) {
 			System.out.println("The funds got out from the ATM box....");
-			System.out.printf("Successful withdrawal of %s was made.\n", amount);
+			System.out.printf("Successful withdrawal of %d was made.\n", amount);
 		}
 	}
 
-	// TODO use cases:
+	// TODO check after phone-number class is fixed.
 	public void transferFunds() {
-
+		System.out.print("Enter phone number of the receiver: ");
+		String numberStr = StaticScanner.scanner.next();
+		PhoneNumber phoneNumber = PhoneNumber.getPhoneNumber(numberStr);
+		AccountOwner receiver = DB.getUser(phoneNumber);
+		
+		if(receiver == null) {
+			System.out.println("The receiver was not found.");
+		}
+		else {
+			System.out.print("Enter amount to transfer: ");
+			int amount = StaticScanner.scanner.nextInt();
+			if(account.transfer(amount)) {
+				receiver.account.transferredToMe(amount);
+				System.out.printf("Successful transfer of %d was made.\n", amount);
+			}
+		}
 	}
+	
+	
+	// TODO use cases:
 
 	public void payBill() {
 
@@ -126,7 +145,6 @@ public class AccountOwner extends Person {
 		int year = scanner.nextInt();
 
 		getActivityReportData(LocalDateTime.of(year, month, day, 0, 0));
-
 	}
 
 	// TODO getActivityReportData

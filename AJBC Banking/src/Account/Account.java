@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import ActivityData.ActivityData;
 import ActivityData.ActivityName;
 import DataBase.DB;
+import User.AccountOwner;
 
 public class Account {
 	private final long ACCOUNT_ID;
@@ -15,6 +16,7 @@ public class Account {
 	private AccountProperties accountProperties;
 	private ActivityData[] activities;
 	private int idx;
+	private final int MAX_TO_TRANSFER = 2000;
 
 	public Account(AccountProperties accountProperties, float interestRate, float operationFee) {
 		ACCOUNT_ID = ++accountCounter;
@@ -80,5 +82,21 @@ public class Account {
 			System.out.println("Cannot do the oparation. The amount exceeds the daily maximum.");
 			return false;
 		}
+	}
+
+	public boolean transfer(int amount) {
+		if (amount <= MAX_TO_TRANSFER) {
+			setBalance(balance - amount);
+			handleNewActivityData(ActivityName.MAKE_PAYMENTTRANSFER, "transfer to another user", -amount);
+			return true;
+		} else {
+			System.out.printf("Cannot do the oparation. The maximum to transfer is %d.\n", MAX_TO_TRANSFER);
+			return false;
+		}
+	}
+
+	public void transferredToMe(int amount) {
+		setBalance(balance + amount);
+		handleNewActivityData(ActivityName.MAKE_PAYMENTTRANSFER, "transferred from other user", amount);
 	}
 }
