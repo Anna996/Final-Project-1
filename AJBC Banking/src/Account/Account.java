@@ -17,6 +17,7 @@ public class Account {
 	private ActivityData[] activities;
 	private int idx;
 	private final int MAX_TO_TRANSFER = 2000;
+	private final int MAX_FOR_BILL = 5000;
 
 	public Account(AccountProperties accountProperties, float interestRate, float operationFee) {
 		ACCOUNT_ID = ++accountCounter;
@@ -98,5 +99,16 @@ public class Account {
 	public void transferredToMe(int amount) {
 		setBalance(balance + amount);
 		handleNewActivityData(ActivityName.MAKE_PAYMENTTRANSFER, "transferred from other user", amount);
+	}
+
+	public boolean payBill(int amount, String payee) {
+		if (amount <= MAX_FOR_BILL) {
+			setBalance(balance - amount);
+			handleNewActivityData(ActivityName.PAY_BILL, "Payee: " + payee, -amount);
+			return true;
+		} else {
+			System.out.printf("Cannot do the oparation. The maximum for bill payment is %d.\n", MAX_FOR_BILL);
+			return false;
+		}
 	}
 }

@@ -6,6 +6,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 import Account.Account;
+import Account.Payee;
 import ActivityData.ActivityData;
 import DataBase.DB;
 import Menu.Menu;
@@ -95,8 +96,8 @@ public class AccountOwner extends Person {
 	public void makeWithdrawal() {
 		System.out.print("Enter amount to withdrawal: ");
 		int amount = StaticScanner.scanner.nextInt();
-		
-		if(account.withdrawalCash(amount)) {
+
+		if (account.withdrawalCash(amount)) {
 			System.out.println("The funds got out from the ATM box....");
 			System.out.printf("Successful withdrawal of %d was made.\n", amount);
 		}
@@ -108,25 +109,33 @@ public class AccountOwner extends Person {
 		String numberStr = StaticScanner.scanner.next();
 		PhoneNumber phoneNumber = PhoneNumber.getPhoneNumber(numberStr);
 		AccountOwner receiver = DB.getUser(phoneNumber);
-		
-		if(receiver == null) {
+
+		if (receiver == null) {
 			System.out.println("The receiver was not found.");
-		}
-		else {
+		} else {
 			System.out.print("Enter amount to transfer: ");
 			int amount = StaticScanner.scanner.nextInt();
-			if(account.transfer(amount)) {
+			if (account.transfer(amount)) {
 				receiver.account.transferredToMe(amount);
 				System.out.printf("Successful transfer of %d was made.\n", amount);
 			}
 		}
 	}
-	
-	
-	// TODO use cases:
 
 	public void payBill() {
-
+		Menu.printNewLine();
+		System.out.println("Choose the payee: ");
+		for(Payee payee : Payee.values()) {
+			System.out.println(Payee.getId(payee) +". " + payee);
+		}
+		
+		Menu.printEnterYourChoise();
+		int payee = StaticScanner.scanner.nextInt();
+		System.out.print("Enter the bill amount: ");
+		int amount = StaticScanner.scanner.nextInt();
+		if(account.payBill(amount, Payee.getPayee(payee).toString())) {
+			System.out.printf("Successful bill paying of %d was made.\n", amount);
+		}
 	}
 
 	public void askForLoan() {
@@ -150,17 +159,17 @@ public class AccountOwner extends Person {
 	// TODO getActivityReportData
 	protected void getActivityReportData(LocalDateTime timestamp) {
 		ActivityData[] activities = account.getActivitiesDataFrom(timestamp);
-		
+
 		System.out.println("Activities:");
 		System.out.println("===========");
-		for(ActivityData data : activities) {
+		for (ActivityData data : activities) {
 			System.out.println(data);
 		}
-		
+
 		Menu.printNewLine();
 		checkBalance();
-		
+
 		// TODO Loan summary
-		
+
 	}
 }
