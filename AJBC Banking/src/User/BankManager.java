@@ -26,7 +26,7 @@ public class BankManager extends AccountOwner {
 		usersToApprove[idx++] = user;
 	}
 
-	public void setAndApproveAccounts() {
+	public void setAndApproveUsers() {
 		for (int i = 0; i < idx; i++) {
 			setAndApproveAccount(usersToApprove[i]);
 			usersToApprove[i] = null;
