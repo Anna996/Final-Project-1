@@ -2,6 +2,8 @@ package Account;
 
 import java.time.LocalDateTime;
 
+import ActivityData.ActivityData;
+import ActivityData.ActivityName;
 import DataBase.DB;
 
 public class Account {

@@ -1,10 +1,6 @@
-package Account;
+package ActivityData;
 
 import java.time.LocalDateTime;
-
-enum ActivityName {
-	DEPOSIT_CASH, WITHDRAWAL, GET_LOAN, MAKE_PAYMENTTRANSFER, FEE_COLLECTION, PAY_BILL
-}
 
 public class ActivityData {
 	private ActivityName activityName;
