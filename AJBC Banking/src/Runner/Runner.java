@@ -45,7 +45,7 @@ public class Runner {
 	private static BankManager createBankManager() {
 		PhoneNumber phoneNumber = new PhoneNumber("054", "5555555");
 		LocalDate birthDate = LocalDate.of(1960, 10, 27);
-		Credentials credentials = new Credentials("manager", "manager123");
+		Credentials credentials = new Credentials("m", "m");
 
 		return new BankManager(phoneNumber, "Avi", "Levi", birthDate, credentials);
 	}

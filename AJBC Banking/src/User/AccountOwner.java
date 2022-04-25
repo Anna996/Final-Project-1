@@ -16,7 +16,6 @@ public class AccountOwner extends Person {
 	private Credentials credentials;
 	private Account account = null;
 	private double monthlyIncome;
-//	private BankManager manager;
 	private final int MAX_LOAN_PAYMENTS = 60;
 
 	public AccountOwner(PhoneNumber phoneNumber, String firstName, String lastName, LocalDate birthDate,
@@ -24,7 +23,6 @@ public class AccountOwner extends Person {
 		super(phoneNumber, firstName, lastName, birthDate);
 		setCredentials(credentials);
 		setMonthlyIncome(monthlyIncome);
-//		setManager(manager);
 	}
 
 	private void setCredentials(Credentials credentials) {
@@ -34,10 +32,6 @@ public class AccountOwner extends Person {
 	private void setMonthlyIncome(double monthlyIncome) {
 		this.monthlyIncome = monthlyIncome;
 	}
-
-//	private void setManager(BankManager manager) {
-//		this.manager = manager;
-//	}
 
 	// TODO change setAccount to protected
 	public void setAccount(Account account) {

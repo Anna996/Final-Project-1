@@ -109,12 +109,41 @@ public class AppManager {
 		System.out.printf("Hello %s !\n", currentUser.getFullName());
 		System.out.println("you are logged in.");
 		if (currentUser.hasAccount()) {
-			handleRegularMenu();
+			if (currentUser instanceof BankManager) {
+				handleManagerMenu();
+			} else {
+				handleRegularMenu();
+			}
 		} else {
 			Menu.printApplicationWaitting();
 		}
-		
+
 		logout();
+	}
+	
+	private void handleManagerMenu() {
+		BankManager manger = (BankManager)currentUser;
+		int input = 1;
+
+		while (input != 0) {
+			Menu.printNewLine();
+			Menu.printManagerMenu();
+			Menu.printEnterYourChoise();
+			input = scanner.nextInt();
+			Menu.printNewLine();
+
+			switch (input) {
+			case 1:
+				manger.setAndApproveUsers();
+				break;
+			case 2:
+				manger.getFeeCollectionPayBill();
+				break;
+			case 3:
+				manger.getActivityReport();
+				break;
+			}
+		}
 	}
 
 	private void handleRegularMenu() {
@@ -126,7 +155,7 @@ public class AppManager {
 			Menu.printEnterYourChoise();
 			input = scanner.nextInt();
 			Menu.printNewLine();
-			
+
 			switch (input) {
 			case 1:
 				currentUser.checkBalance();

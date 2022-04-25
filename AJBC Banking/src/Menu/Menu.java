@@ -33,4 +33,13 @@ public class Menu {
 		System.out.println("7. Activity report");
 		System.out.println("0. Log out");
 	}
+	
+	public static void printManagerMenu() {
+		System.out.println("Available operations");
+		System.out.println("====================");
+		System.out.println("1. Set and approve users that are waiting");
+		System.out.println("2. Get fee collection pay bill");
+		System.out.println("3. Activity report");
+		System.out.println("0. Log out");
+	}
 }

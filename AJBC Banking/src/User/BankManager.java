@@ -16,6 +16,7 @@ public class BankManager extends AccountOwner {
 		super(phoneNumber, firstName, lastName, birthDate, credentials, 0);
 		this.usersToApprove = new AccountOwner[DB.SIZE];
 		this.idx = 0;
+		setBankAccount();
 	}
 
 	public void addUserToApprove(AccountOwner user) {
@@ -60,6 +61,11 @@ public class BankManager extends AccountOwner {
 		user.setAccount(account);
 	}
 
+	private void setBankAccount() {
+		Account account = new Account(AccountProperties.TITANIUM, 0, 0);
+		setAccount(account);
+	}
+
 	// TODO activity report for manager
 	@Override
 	protected void getActivityReportData(LocalDateTime timestamp) {
@@ -67,7 +73,8 @@ public class BankManager extends AccountOwner {
 		// TODO change in balance since the given date.
 	}
 	
-	
-
-	// TODO what happens when the manager is logged in?
+	//TODO getFeeCollectionPayBill
+	public void getFeeCollectionPayBill() {
+		
+	}
 }
