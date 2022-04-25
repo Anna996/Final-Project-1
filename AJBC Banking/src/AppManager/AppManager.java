@@ -31,6 +31,7 @@ public class AppManager {
 		System.out.print("Enter your phone number: ");
 		String numberStr = scanner.next();
 		PhoneNumber phoneNumber = PhoneNumber.getPhoneNumber(numberStr);
+		if (phoneNumber == null) return;
 		AccountOwner owner = DB.getUser(phoneNumber);
 		if (owner == null) {
 			createAccountOwner(phoneNumber);
@@ -120,9 +121,9 @@ public class AppManager {
 
 		logout();
 	}
-	
+
 	private void handleManagerMenu() {
-		BankManager manger = (BankManager)currentUser;
+		BankManager manger = (BankManager) currentUser;
 		int input = 1;
 
 		while (input != 0) {

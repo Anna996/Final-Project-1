@@ -1,6 +1,5 @@
 package DataBase;
 
-import Account.AccountProperties;
 import User.AccountOwner;
 import User.PhoneNumber;
 
