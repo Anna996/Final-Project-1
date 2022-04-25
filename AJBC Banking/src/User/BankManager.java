@@ -2,6 +2,8 @@ package User;
 
 import java.time.LocalDate;
 
+import Account.Account;
+import Account.AccountProperties;
 import DataBase.DB;
 
 public class BankManager extends AccountOwner {
@@ -33,8 +35,29 @@ public class BankManager extends AccountOwner {
 		this.idx = 0;
 	}
 
-	// TODO setAndApproveAccount(...)
 	private void setAndApproveAccount(AccountOwner user) {
+		AccountProperties properties;
+		float interestRate, operationFee;
+		double income = user.getMonthlyIncome();
 
+		if (income < 10000) {
+			properties = AccountProperties.BRONZE;
+			interestRate = properties.getMinInterestRate();
+			operationFee = properties.getMinOperationFee();
+		} else if (income < 18000) {
+			properties = AccountProperties.SILVER;
+			interestRate = properties.getMinInterestRate() + 1;
+			operationFee = properties.getMinOperationFee() + 0.5f;
+		} else {
+			properties = AccountProperties.GOLD;
+			interestRate = properties.getMaxInterestRate();
+			operationFee = properties.getMaxOperationFee();
+		}
+
+		Account account = new Account(properties, interestRate, operationFee);
+
+		user.setAccount(account);
 	}
+
+	// TODO what happens when the manager is logged in?
 }

@@ -36,6 +36,10 @@ public class AccountOwner extends Person {
 	public void setAccount(Account account) {
 		this.account = account;
 	}
+	
+	public double getMonthlyIncome() {
+		return monthlyIncome;
+	}
 
 	public boolean isUsernameEqualls(String username) {
 		return this.credentials.isUsernameEqualls(username);
