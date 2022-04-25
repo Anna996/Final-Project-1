@@ -11,7 +11,7 @@ public class AccountOwner extends Person {
 //	private BankManager manager;
 
 	public AccountOwner(PhoneNumber phoneNumber, String firstName, String lastName, LocalDate birthDate,
-			Credentials credentials,double monthlyIncome) {
+			Credentials credentials, double monthlyIncome) {
 		super(phoneNumber, firstName, lastName, birthDate);
 		setCredentials(credentials);
 		setMonthlyIncome(monthlyIncome);
@@ -33,12 +33,16 @@ public class AccountOwner extends Person {
 //	private void setAccount(Account account) {
 //		this.account = account;
 //	}
-	
+
 	public boolean isUsernameEqualls(String username) {
 		return this.credentials.isUsernameEqualls(username);
 	}
-	
+
 	public boolean isPasswordEqualls(String password) {
 		return this.credentials.isPasswordEqualls(password);
+	}
+
+	public boolean hasAccount() {
+		return account != null;
 	}
 }

@@ -33,8 +33,7 @@ public class AppManager {
 		AccountOwner owner = DB.getUser(phoneNumber);
 		if (owner == null) {
 			createAccountOwner(phoneNumber);
-			System.out
-					.println("Your application is waiting for a manager approval.\nPlease come back later. Thank you!");
+			Menu.printApplicationWaitting();
 		} else {
 			System.out.println("You already have an account.");
 			login();
@@ -93,7 +92,7 @@ public class AppManager {
 			password = scanner.next();
 			if (userFromDB.isPasswordEqualls(password)) {
 				currentUser = userFromDB;
-				userJustLogedIn();
+				userIsInTheSystem();
 				return;
 			} else {
 				System.out.println("Password incorrect.");
@@ -104,16 +103,34 @@ public class AppManager {
 		lockUser();
 	}
 
-	private void userJustLogedIn() {
+	private void userIsInTheSystem() {
 		Menu.printNewLine();
 		System.out.printf("Hello %s !\n", currentUser.getFullName());
-		System.out.println("you are logged in !");
-		System.out.println(" * ");
-		System.out.println(" * ");
-		System.out.println(" * ");
-		System.out.println(" * ");
-		System.out.println(" * ");
+		System.out.println("you are logged in.");
+		if (currentUser.hasAccount()) {
+			showRegularMenu();
+		} else {
+			Menu.printApplicationWaitting();
+		}
+		
 		logout();
+	}
+
+	private void showRegularMenu() {
+		int input = 1;
+
+		while (input != 0) {
+			Menu.printNewLine();
+			Menu.printActivitiesMenu();
+			Menu.printEnterYourChoise();
+			input = scanner.nextInt();
+
+			switch (input) {
+			case 1:
+				//TODO use case 1
+				break;
+			}
+		}
 	}
 
 	private void lockUser() {

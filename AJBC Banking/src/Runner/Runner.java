@@ -48,6 +48,7 @@ public class Runner {
 		return new BankManager(phoneNumber, "Avi", "Levi", birthDate, credentials);
 	}
 	
+	// TODO set his account
 	private static void addDefaultUserToDB() {
 		PhoneNumber phoneNumber = new PhoneNumber("054", "5555554");
 		LocalDate birthDate = LocalDate.of(1960, 10, 27);
