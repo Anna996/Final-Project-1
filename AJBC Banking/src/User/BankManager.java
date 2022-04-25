@@ -1,6 +1,7 @@
 package User;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import Account.Account;
 import Account.AccountProperties;
@@ -58,6 +59,15 @@ public class BankManager extends AccountOwner {
 
 		user.setAccount(account);
 	}
+
+	// TODO activity report for manager
+	@Override
+	protected void getActivityReportData(LocalDateTime timestamp) {
+		checkBalance();
+		// TODO change in balance since the given date.
+	}
+	
+	
 
 	// TODO what happens when the manager is logged in?
 }

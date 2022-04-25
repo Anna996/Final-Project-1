@@ -56,14 +56,29 @@ public class Account {
 		activities[idx++] = activityData;
 	}
 
-	private void handleNewActivityData(ActivityName activityName, LocalDateTime timeStamp, String info,
-			double balanceChange) {
-		ActivityData activityData = new ActivityData(activityName, timeStamp, info, balanceChange);
+	private void handleNewActivityData(ActivityName activityName, String info, double balanceChange) {
+		ActivityData activityData = new ActivityData(activityName, LocalDateTime.now(), info, balanceChange);
 		addActivityData(activityData);
 	}
 
 	public void depositCash(int amount) {
 		setBalance(balance + amount);
-		handleNewActivityData(ActivityName.DEPOSIT_CASH, LocalDateTime.now(), "none", amount);
+		handleNewActivityData(ActivityName.DEPOSIT_CASH, "none", amount);
+	}
+
+	// TODO getActivitiesDataFrom(timestamp)
+	public ActivityData[] getActivitiesDataFrom(LocalDateTime timestamp) {
+		return new ActivityData[0];
+	}
+
+	public boolean withdrawalCash(int amount) {
+		if (amount <= accountProperties.maxWithdrawalAmount) {
+			setBalance(balance - amount);
+			handleNewActivityData(ActivityName.WITHDRAWAL, "none", -amount);
+			return true;
+		} else {
+			System.out.println("Cannot do the oparation. The amount exceeds the daily maximum.");
+			return false;
+		}
 	}
 }
