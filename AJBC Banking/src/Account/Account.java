@@ -111,4 +111,14 @@ public class Account {
 			return false;
 		}
 	}
+
+	public boolean isLoanAmountAcceptable(int amount) {
+		return amount <= accountProperties.maxLoanAmmount;
+	}
+	
+	public void getLoan(int amount, int numOfPayments) {
+		// TODO loan object
+		setBalance(balance + amount);
+		handleNewActivityData(ActivityName.GET_LOAN, "numOfPayments: " + numOfPayments, amount);
+	}
 }

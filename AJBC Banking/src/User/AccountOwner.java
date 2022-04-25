@@ -17,6 +17,7 @@ public class AccountOwner extends Person {
 	private Account account = null;
 	private double monthlyIncome;
 //	private BankManager manager;
+	private final int MAX_LOAN_PAYMENTS = 60;
 
 	public AccountOwner(PhoneNumber phoneNumber, String firstName, String lastName, LocalDate birthDate,
 			Credentials credentials, double monthlyIncome) {
@@ -123,7 +124,6 @@ public class AccountOwner extends Person {
 	}
 
 	public void payBill() {
-		Menu.printNewLine();
 		System.out.println("Choose the payee: ");
 		for(Payee payee : Payee.values()) {
 			System.out.println(Payee.getId(payee) +". " + payee);
@@ -139,7 +139,24 @@ public class AccountOwner extends Person {
 	}
 
 	public void askForLoan() {
-
+		System.out.print("Enter loan amount: ");
+		int loanAmount = StaticScanner.scanner.nextInt();
+		
+		if(account.isLoanAmountAcceptable(loanAmount))
+		{
+			System.out.print("Enter the number of monthly payments: ");
+			int numOfMonthlyPayments = StaticScanner.scanner.nextInt();
+			if(numOfMonthlyPayments <= MAX_LOAN_PAYMENTS) {
+				account.getLoan(loanAmount, numOfMonthlyPayments);
+				System.out.printf("Successful received loan amount of %d.\n", loanAmount);
+			}
+			else {
+				System.out.println("Cannot do the oparation. The amount exceeds the maximum payments number.");
+			}
+		}
+		else {
+			System.out.println("Cannot do the oparation. The amount exceeds the maximum loan amount.");
+		}
 	}
 
 	public void getActivityReport() {

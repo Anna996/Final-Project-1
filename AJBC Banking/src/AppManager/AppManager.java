@@ -125,7 +125,8 @@ public class AppManager {
 			Menu.printActivitiesMenu();
 			Menu.printEnterYourChoise();
 			input = scanner.nextInt();
-
+			Menu.printNewLine();
+			
 			switch (input) {
 			case 1:
 				currentUser.checkBalance();
