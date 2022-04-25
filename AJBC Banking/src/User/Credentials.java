@@ -9,12 +9,12 @@ public class Credentials {
 		setPassword(password);
 	}
 
-	//TODO Logic
+	//TODO Logic setUsername
 	private void setUsername(String username) {
 		this.username = username;
 	}
 
-	//TODO Logic
+	//TODO Logic setPassword
 	private void setPassword(String password) {
 		this.password = password;
 	}

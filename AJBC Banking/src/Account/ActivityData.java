@@ -1,6 +1,6 @@
 package Account;
 
-// TODO
+// TODO ActivityData class
 public class ActivityData {
 
 }

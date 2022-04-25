@@ -13,7 +13,7 @@ public class PhoneNumber {
 		return String.format("%s-%s", preffix, body);
 	}
 	
-	//TODO
+	//TODO getPhoneNumber by string
 	public static PhoneNumber getPhoneNumber(String phoneNumber) {
 		return new PhoneNumber("", "");
 	}

@@ -52,7 +52,7 @@ public class AppManager {
 		AccountOwner accountOwner = new AccountOwner(phoneNumber, fisrtName, lastName, LocalDate.of(year, month, day),
 				credentials, monthlyIncome);
 		
-		// TODO: add to manager list to approve.
+		// TODO: add user to manager list to approve.
 	}
 
 	public void login() {
