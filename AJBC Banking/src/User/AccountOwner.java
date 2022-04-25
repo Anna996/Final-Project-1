@@ -87,4 +87,26 @@ public class AccountOwner extends Person {
 
 		return code;
 	}
+	
+	// TODO use cases:
+	
+	public void makeWithdrawal() {
+		
+	}
+	
+	public void transferFunds() {
+		
+	}
+	
+	public void payBill() {
+		
+	}
+	
+	public void askForLoan() {
+		
+	}
+	
+	public void getActivityReport() {
+		
+	}
 }

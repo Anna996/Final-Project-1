@@ -133,6 +133,21 @@ public class AppManager {
 			case 2:
 				currentUser.depositCash();
 				break;
+			case 3:
+				currentUser.makeWithdrawal();
+				break;
+			case 4:
+				currentUser.transferFunds();
+				break;
+			case 5:
+				currentUser.payBill();
+				break;
+			case 6:
+				currentUser.askForLoan();
+				break;
+			case 7:
+				currentUser.getActivityReport();
+				break;
 			}
 		}
 	}

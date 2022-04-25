@@ -26,6 +26,11 @@ public class Menu {
 		System.out.println("====================");
 		System.out.println("1. Check balance");
 		System.out.println("2. Deposit cash");
+		System.out.println("3. make a withdrawal");
+		System.out.println("4. Transfer funds");
+		System.out.println("5. Pay a bill");
+		System.out.println("6. Ask for loan");
+		System.out.println("7. Activity report");
 		System.out.println("0. Log out");
 	}
 }

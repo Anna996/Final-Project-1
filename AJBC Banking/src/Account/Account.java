@@ -64,6 +64,6 @@ public class Account {
 
 	public void depositCash(int amount) {
 		setBalance(balance + amount);
-		handleNewActivityData(ActivityName.DEPOSIT_CASH, LocalDateTime.now(), "", amount);
+		handleNewActivityData(ActivityName.DEPOSIT_CASH, LocalDateTime.now(), "none", amount);
 	}
 }
