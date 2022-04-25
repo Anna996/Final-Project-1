@@ -1,6 +1,7 @@
 package AppManager;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Scanner;
 
 import DataBase.DB;
@@ -70,21 +71,24 @@ public class AppManager {
 	public void login() {
 		String username, password;
 		AccountOwner userFromDB = null;
-		int count = 3;
+		int attempts = 3;
 
 		System.out.println("Login...");
-		while (count > 0) {
+
+		// input and validation of user-name field
+		while (attempts > 0) {
 			System.out.print("Enter username: ");
 			username = scanner.next();
 			userFromDB = DB.getUser(username);
 			if (userFromDB != null) {
 				break;
 			}
-			System.out.println("Username incorrect. Try again");
-			count--;
+			System.out.println("Username incorrect.");
+			attempts--;
 		}
 
-		while (count > 0) {
+		// input and validation of password field
+		while (attempts > 0) {
 			System.out.print("Enter password: ");
 			password = scanner.next();
 			if (userFromDB.isPasswordEqualls(password)) {
@@ -92,13 +96,12 @@ public class AppManager {
 				userJustLogedIn();
 				return;
 			} else {
-				System.out.println("Password incorrect. Try again");
-				count--;
+				System.out.println("Password incorrect.");
+				attempts--;
 			}
 		}
 
-		// TODO lock the user for 30 minutes.
-
+		lockUser();
 	}
 
 	private void userJustLogedIn() {
@@ -111,6 +114,16 @@ public class AppManager {
 		System.out.println(" * ");
 		System.out.println(" * ");
 		logout();
+	}
+
+	private void lockUser() {
+		LocalTime realseTime = LocalTime.now().plusMinutes(30);
+
+		Menu.printNewLine();
+		System.out.println("your account is being locked...");
+		System.out.printf("It will be realsed at %d:%d \n", realseTime.getHour(), realseTime.getMinute());
+		while (realseTime.isAfter(LocalTime.now())) {
+		}
 	}
 
 	private void logout() {
