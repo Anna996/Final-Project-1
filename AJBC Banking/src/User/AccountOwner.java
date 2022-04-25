@@ -1,8 +1,10 @@
 package User;
 
 import java.time.LocalDate;
+import java.util.Random;
 
 import Account.Account;
+import StaticScanner.StaticScanner;
 
 public class AccountOwner extends Person {
 	private Credentials credentials;
@@ -30,9 +32,10 @@ public class AccountOwner extends Person {
 //		this.manager = manager;
 //	}
 
-//	private void setAccount(Account account) {
-//		this.account = account;
-//	}
+	// TODO change setAccount to protected
+	public void setAccount(Account account) {
+		this.account = account;
+	}
 
 	public boolean isUsernameEqualls(String username) {
 		return this.credentials.isUsernameEqualls(username);
@@ -44,5 +47,40 @@ public class AccountOwner extends Person {
 
 	public boolean hasAccount() {
 		return account != null;
+	}
+
+	public void checkBalance() {
+		System.out.println("Balance: " + account.getBalance());
+	}
+
+	public void depositCash() {
+		int code = generateAuthenticationCode();
+		
+		System.out.println("You got an authentication code: " + code);
+		System.out.print("Please enter your authentication code: ");
+		int input = StaticScanner.scanner.nextInt();
+		
+		if(input == code) {
+			System.out.print("Enter amount of cash: ");
+			int amountOfCash = StaticScanner.scanner.nextInt();
+			System.out.println("Dropping into the ATM box....");
+			account.depositCash(amountOfCash);
+			System.out.printf("Successful deposit of %s was made.\n",amountOfCash);
+		}
+		else {
+			System.out.println("Your code incorrect.");
+		}
+	}
+
+	private int generateAuthenticationCode() {
+		Random random = new Random();
+		int code = 0;
+
+		for (int i = 0; i < 4; i++) {
+			code *= 10;
+			code += random.nextInt(10);
+		}
+
+		return code;
 	}
 }

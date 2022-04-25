@@ -24,4 +24,12 @@ public class Account {
 	private void setActivities(ActivityData[] activities) {
 		this.activities = activities;
 	}
+
+	public double getBalance() {
+		return balance;
+	}
+	
+	public void depositCash(int amount) {
+		setBalance(balance + amount);
+	}
 }

@@ -25,6 +25,7 @@ public class Menu {
 		System.out.println("Available operations");
 		System.out.println("====================");
 		System.out.println("1. Check balance");
+		System.out.println("2. Deposit cash");
 		System.out.println("0. Log out");
 	}
 }

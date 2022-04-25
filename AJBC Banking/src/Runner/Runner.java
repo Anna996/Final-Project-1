@@ -3,9 +3,12 @@ package Runner;
 import java.time.LocalDate;
 import java.util.Scanner;
 
+import Account.Account;
+import Account.AccountProperties;
 import AppManager.AppManager;
 import DataBase.DB;
 import Menu.Menu;
+import StaticScanner.StaticScanner;
 import User.AccountOwner;
 import User.BankManager;
 import User.Credentials;
@@ -14,7 +17,7 @@ import User.PhoneNumber;
 public class Runner {
 
 	public static void main(String[] args) {
-		Scanner scanner = new Scanner(System.in);
+		Scanner scanner = StaticScanner.scanner;
 		BankManager manager = createBankManager();
 		DB.addUser(manager);
 		AppManager appManager = new AppManager(manager);
@@ -37,7 +40,6 @@ public class Runner {
 
 		System.out.println("The system is off.");
 		scanner.close();
-		appManager.closeScanner();
 	}
 
 	private static BankManager createBankManager() {
@@ -48,13 +50,14 @@ public class Runner {
 		return new BankManager(phoneNumber, "Avi", "Levi", birthDate, credentials);
 	}
 	
-	// TODO set his account
 	private static void addDefaultUserToDB() {
 		PhoneNumber phoneNumber = new PhoneNumber("054", "5555554");
 		LocalDate birthDate = LocalDate.of(1960, 10, 27);
 		Credentials credentials = new Credentials("bbb", "bbb123");
 		AccountOwner user = new AccountOwner(phoneNumber, "Noa", "Levi", birthDate, credentials, 8000);
+		Account account = new Account(AccountProperties.BRONZE);
 		
+		user.setAccount(account);
 		DB.addUser(user);
 	}
 }

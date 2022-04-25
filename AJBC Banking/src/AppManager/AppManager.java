@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 import DataBase.DB;
 import Menu.Menu;
+import StaticScanner.StaticScanner;
 import User.AccountOwner;
 import User.BankManager;
 import User.Credentials;
@@ -17,7 +18,7 @@ public class AppManager {
 	private AccountOwner currentUser;
 
 	public AppManager(BankManager manager) {
-		scanner = new Scanner(System.in);
+		scanner = StaticScanner.scanner;
 		setManager(manager);
 	}
 
@@ -108,7 +109,7 @@ public class AppManager {
 		System.out.printf("Hello %s !\n", currentUser.getFullName());
 		System.out.println("you are logged in.");
 		if (currentUser.hasAccount()) {
-			showRegularMenu();
+			handleRegularMenu();
 		} else {
 			Menu.printApplicationWaitting();
 		}
@@ -116,7 +117,7 @@ public class AppManager {
 		logout();
 	}
 
-	private void showRegularMenu() {
+	private void handleRegularMenu() {
 		int input = 1;
 
 		while (input != 0) {
@@ -127,7 +128,10 @@ public class AppManager {
 
 			switch (input) {
 			case 1:
-				//TODO use case 1
+				currentUser.checkBalance();
+				break;
+			case 2:
+				currentUser.depositCash();
 				break;
 			}
 		}
@@ -149,7 +153,4 @@ public class AppManager {
 		this.currentUser = null;
 	}
 
-	public void closeScanner() {
-		this.scanner.close();
-	}
 }
