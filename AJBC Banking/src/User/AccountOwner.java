@@ -33,4 +33,12 @@ public class AccountOwner extends Person {
 //	private void setAccount(Account account) {
 //		this.account = account;
 //	}
+	
+	public boolean isUsernameEqualls(String username) {
+		return this.credentials.isUsernameEqualls(username);
+	}
+	
+	public boolean isPasswordEqualls(String password) {
+		return this.credentials.isPasswordEqualls(password);
+	}
 }

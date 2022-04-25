@@ -22,13 +22,22 @@ public class DB {
 		}
 		return null;
 	}
-	
+
+	public static AccountOwner getUser(String username) {
+		for (int i = 0; i < idx; i++) {
+			if (users[i].isUsernameEqualls(username)) {
+				return users[i];
+			}
+		}
+		return null;
+	}
+
 	public static void addUser(AccountOwner user) {
-		if(idx >= users.length) {
+		if (idx >= users.length) {
 			System.out.println("Overflow !!! class: DB , cant add another user to database.");
 			return;
 		}
-		
+
 		users[idx++] = user;
 	}
 }

@@ -18,4 +18,12 @@ public class Credentials {
 	private void setPassword(String password) {
 		this.password = password;
 	}
+	
+	protected boolean isUsernameEqualls(String username) {
+		return this.username.equals(username);
+	}
+	
+	protected boolean isPasswordEqualls(String password) {
+		return this.password.equals(password);
+	}
 }
