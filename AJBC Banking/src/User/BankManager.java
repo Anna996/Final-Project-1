@@ -9,8 +9,8 @@ public class BankManager extends AccountOwner {
 	private int idx;
 
 	public BankManager(PhoneNumber phoneNumber, String firstName, String lastName, LocalDate birthDate,
-			Credentials credentials, double monthlyIncome) {
-		super(phoneNumber, firstName, lastName, birthDate, credentials, monthlyIncome);
+			Credentials credentials) {
+		super(phoneNumber, firstName, lastName, birthDate, credentials, 0);
 		this.usersToApprove = new AccountOwner[DB.SIZE];
 		this.idx = 0;
 	}

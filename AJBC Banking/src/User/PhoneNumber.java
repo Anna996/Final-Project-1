@@ -1,5 +1,7 @@
 package User;
 
+import java.util.Objects;
+
 public class PhoneNumber {
 	private String preffix; // 3 digits
 	private String body; // 7 digits
@@ -17,4 +19,20 @@ public class PhoneNumber {
 	public static PhoneNumber getPhoneNumber(String phoneNumber) {
 		return new PhoneNumber("", "");
 	}
+
+
+	// TODO PhoneNumber equals method
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		PhoneNumber other = (PhoneNumber) obj;
+		return Objects.equals(body, other.body) && Objects.equals(preffix, other.preffix);
+	}
+	
+	
 }

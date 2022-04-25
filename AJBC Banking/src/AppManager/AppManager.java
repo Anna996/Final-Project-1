@@ -5,14 +5,21 @@ import java.util.Scanner;
 
 import DataBase.DB;
 import User.AccountOwner;
+import User.BankManager;
 import User.Credentials;
 import User.PhoneNumber;
 
 public class AppManager {
 	private Scanner scanner;
+	private BankManager manager;
 
-	public AppManager() {
+	public AppManager(BankManager manager) {
 		scanner = new Scanner(System.in);
+		setManager(manager);
+	}
+	
+	private void setManager(BankManager manager) {
+		this.manager = manager;
 	}
 
 	public void openAccount() {
@@ -20,7 +27,7 @@ public class AppManager {
 		System.out.print("Enter your phone number: ");
 		String numberStr = scanner.next();
 		PhoneNumber phoneNumber = PhoneNumber.getPhoneNumber(numberStr);
-		AccountOwner owner = DB.getAccountOwner(phoneNumber);
+		AccountOwner owner = DB.getUser(phoneNumber);
 		if (owner == null) {
 			createAccountOwner(phoneNumber);
 			System.out.println("Your application is waiting for a manager approval.\nPlease come back later. Thank you!");
@@ -52,7 +59,8 @@ public class AppManager {
 		AccountOwner accountOwner = new AccountOwner(phoneNumber, fisrtName, lastName, LocalDate.of(year, month, day),
 				credentials, monthlyIncome);
 		
-		// TODO: add user to manager list to approve.
+		manager.addUserToApprove(accountOwner);
+		DB.addUser(accountOwner);
 	}
 
 	public void login() {
