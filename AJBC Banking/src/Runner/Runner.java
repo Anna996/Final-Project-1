@@ -45,7 +45,7 @@ public class Runner {
 	private static BankManager createBankManager() {
 		PhoneNumber phoneNumber = new PhoneNumber("054", "5555555");
 		LocalDate birthDate = LocalDate.of(1960, 10, 27);
-		Credentials credentials = new Credentials("m", "m");
+		Credentials credentials = new Credentials("m", "mm11");
 
 		return new BankManager(phoneNumber, "Avi", "Levi", birthDate, credentials);
 	}
@@ -53,7 +53,7 @@ public class Runner {
 	private static void addDefaultUserToDB(BankManager manager) {
 		PhoneNumber phoneNumber = new PhoneNumber("054", "5555554");
 		LocalDate birthDate = LocalDate.of(1960, 10, 27);
-		Credentials credentials = new Credentials("b", "b");
+		Credentials credentials = new Credentials("n", "nn11");
 		AccountOwner user = new AccountOwner(phoneNumber, "Noa", "Levi", birthDate, credentials, 8000);
 		Account account = new Account(AccountProperties.BRONZE, 4.5f, 5, manager);
 

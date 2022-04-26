@@ -31,7 +31,8 @@ public class AppManager {
 		System.out.print("Enter your phone number: ");
 		String numberStr = scanner.next();
 		PhoneNumber phoneNumber = PhoneNumber.getPhoneNumber(numberStr);
-		if (phoneNumber == null) return;
+		if (phoneNumber == null)
+			return;
 		AccountOwner owner = DB.getUser(phoneNumber);
 		if (owner == null) {
 			createAccountOwner(phoneNumber);
@@ -43,10 +44,44 @@ public class AppManager {
 	}
 
 	private void createAccountOwner(PhoneNumber phoneNumber) {
-		System.out.print("Enter your first name: ");
-		String fisrtName = scanner.next();
-		System.out.print("Enter your last name: ");
-		String lastName = scanner.next();
+		String fisrtName = askForName("Enter your first name: ");
+		String lastName = askForName("Enter your last name: ");
+		LocalDate birthDate = askForDateOfBirth();
+
+		System.out.print("Enter your monthly income: ");
+		double monthlyIncome = scanner.nextDouble();
+
+		Credentials credentials = askForCredentials();
+
+		AccountOwner accountOwner = new AccountOwner(phoneNumber, fisrtName, lastName, birthDate, credentials,
+				monthlyIncome);
+
+		manager.addUserToApprove(accountOwner);
+		DB.addUser(accountOwner);
+	}
+
+	private String askForName(String message) {
+		String name;
+
+		do {
+			System.out.print(message);
+			name = scanner.next();
+		} while (!isValidName(name));
+
+		return name;
+	}
+
+	private boolean isValidName(String name) {
+		for (int i = 0; i < name.length(); i++) {
+			if (!Character.isLetter(name.charAt(i))) {
+				System.out.println("Name must be letter only.");
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private LocalDate askForDateOfBirth() {
 		System.out.println("Enter your date of birth: ");
 		System.out.print("day: ");
 		int day = scanner.nextInt();
@@ -54,19 +89,29 @@ public class AppManager {
 		int month = scanner.nextInt();
 		System.out.print("year: ");
 		int year = scanner.nextInt();
-		System.out.print("Enter your monthly income: ");
-		double monthlyIncome = scanner.nextDouble();
-		System.out.print("Enter username: ");
-		String username = scanner.next();
-		System.out.print("Enter password: ");
-		String password = scanner.next();
-		Credentials credentials = new Credentials(username, password);
 
-		AccountOwner accountOwner = new AccountOwner(phoneNumber, fisrtName, lastName, LocalDate.of(year, month, day),
-				credentials, monthlyIncome);
+		return LocalDate.of(year, month, day);
+	}
 
-		manager.addUserToApprove(accountOwner);
-		DB.addUser(accountOwner);
+	private Credentials askForCredentials() {
+		String username, password;
+		boolean isExsits;
+
+		do {
+			System.out.print("Enter username: ");
+			username = scanner.next();
+			isExsits = DB.isUsernameExists(username);
+			if (isExsits) {
+				System.out.println("Username already exists.");
+			}
+		} while (!Credentials.isUsernameValid(username) || isExsits);
+
+		do {
+			System.out.print("Enter password: ");
+			password = scanner.next();
+		} while (!Credentials.isPasswordValid(password));
+
+		return new Credentials(username, password);
 	}
 
 	public void login() {
@@ -198,5 +243,4 @@ public class AppManager {
 		System.out.printf("GoodBye %s !\n", currentUser.getFullName());
 		this.currentUser = null;
 	}
-
 }

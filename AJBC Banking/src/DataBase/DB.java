@@ -40,4 +40,8 @@ public class DB {
 
 		users[idx++] = user;
 	}
+	
+	public static boolean isUsernameExists(String username) {
+		return getUser(username) != null;
+	}
 }
