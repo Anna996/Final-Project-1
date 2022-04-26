@@ -1,5 +1,6 @@
 package Account;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import ActivityData.ActivityData;
@@ -16,6 +17,7 @@ public class Account {
 	private AccountProperties accountProperties;
 	private ActivityData[] activities;
 	private int idx;
+	private Loan loan;
 	private final int MAX_TO_TRANSFER = 2000;
 	private final int MAX_FOR_BILL = 5000;
 
@@ -27,6 +29,7 @@ public class Account {
 		setBalance(0);
 		activities = new ActivityData[DB.SIZE];
 		idx = 0;
+		loan = null;
 	}
 
 	private void setBalance(double balance) {
@@ -69,9 +72,33 @@ public class Account {
 		handleNewActivityData(ActivityName.DEPOSIT_CASH, "none", amount);
 	}
 
-	// TODO getActivitiesDataFrom(timestamp)
 	public ActivityData[] getActivitiesDataFrom(LocalDateTime timestamp) {
-		return new ActivityData[0];
+		LocalDateTime activityTimestamp;
+		int i = 0;
+
+		while (i < idx) {
+			activityTimestamp = activities[i].getTimeStamp();
+			if (isDateAfterOrEqual(timestamp, activityTimestamp)) {
+				break;
+			}
+			i++;
+		}
+
+		ActivityData[] resultActivityData = new ActivityData[idx - i];
+
+		for (int j = 0; j < resultActivityData.length; j++, i++) {
+			resultActivityData[j] = activities[i];
+		}
+
+		return resultActivityData;
+	}
+
+	// is date of timestamp2 after or equal date of timestamp1
+	private boolean isDateAfterOrEqual(LocalDateTime timestamp1, LocalDateTime timestamp2) {
+		LocalDate date1 = LocalDate.of(timestamp1.getYear(), timestamp1.getMonth(), timestamp1.getDayOfMonth());
+		LocalDate date2 = LocalDate.of(timestamp2.getYear(), timestamp2.getMonth(), timestamp2.getDayOfMonth());
+
+		return date2.isAfter(date1) || date2.isEqual(date1);
 	}
 
 	public boolean withdrawalCash(int amount) {
@@ -115,9 +142,14 @@ public class Account {
 	public boolean isLoanAmountAcceptable(int amount) {
 		return amount <= accountProperties.maxLoanAmmount;
 	}
-	
+
+	public Loan getLoan() {
+		return this.loan;
+	}
+
 	public void getLoan(int amount, int numOfPayments) {
-		// TODO loan object
+		this.loan = new Loan(amount, numOfPayments);
+		System.out.println("The amount of the monthly return: " + loan.getMonthlyPayment());
 		setBalance(balance + amount);
 		handleNewActivityData(ActivityName.GET_LOAN, "numOfPayments: " + numOfPayments, amount);
 	}

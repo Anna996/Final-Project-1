@@ -31,9 +31,13 @@ public class ActivityData {
 		this.balanceChange = balanceChange;
 	}
 
+	public LocalDateTime getTimeStamp() {
+		return timeStamp;
+	}
+
 	@Override
 	public String toString() {
-		return "Activity data: [ activityName=" + activityName + ", timeStamp=" + timeStamp + ", info=" + info
-				+ ", balanceChange=" + balanceChange + "]";
+		return "Activity data: [activityName= " + activityName + ", timeStamp= " + timeStamp + ", info= " + info
+				+ ", balanceChange= " + balanceChange + "]";
 	}
 }

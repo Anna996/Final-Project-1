@@ -35,7 +35,7 @@ public class Menu {
 	}
 	
 	public static void printManagerMenu() {
-		System.out.println("Available operations");
+		System.out.println("Manager operations");
 		System.out.println("====================");
 		System.out.println("1. Set and approve users that are waiting");
 		System.out.println("2. Get fee collection pay bill");

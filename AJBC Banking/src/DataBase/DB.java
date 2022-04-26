@@ -14,6 +14,7 @@ public class DB {
 	}
 
 	public static AccountOwner getUser(PhoneNumber phoneNumber) {
+		if (phoneNumber == null) return null; 
 		for (int i = 0; i < idx; i++) {
 			if (phoneNumber.equals(users[i].getPhoneNumber())) {
 				return users[i];

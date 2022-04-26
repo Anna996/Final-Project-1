@@ -33,7 +33,6 @@ public class AccountOwner extends Person {
 		this.monthlyIncome = monthlyIncome;
 	}
 
-	// TODO change setAccount to protected
 	public void setAccount(Account account) {
 		this.account = account;
 	}
@@ -98,7 +97,6 @@ public class AccountOwner extends Person {
 		}
 	}
 
-	// TODO check after phone-number class is fixed.
 	public void transferFunds() {
 		System.out.print("Enter phone number of the receiver: ");
 		String numberStr = StaticScanner.scanner.next();
@@ -164,15 +162,18 @@ public class AccountOwner extends Person {
 		System.out.print("year: ");
 		int year = scanner.nextInt();
 
+		Menu.printNewLine();
+		System.out.println("Activity Report");
+		System.out.println("===============");
 		getActivityReportData(LocalDateTime.of(year, month, day, 0, 0));
 	}
 
-	// TODO getActivityReportData
 	protected void getActivityReportData(LocalDateTime timestamp) {
 		ActivityData[] activities = account.getActivitiesDataFrom(timestamp);
-
-		System.out.println("Activities:");
-		System.out.println("===========");
+		
+//		Menu.printNewLine();
+//		System.out.println("Activities:");
+//		System.out.println("===========");
 		for (ActivityData data : activities) {
 			System.out.println(data);
 		}
@@ -180,7 +181,9 @@ public class AccountOwner extends Person {
 		Menu.printNewLine();
 		checkBalance();
 
-		// TODO Loan summary
-
+		if(account.getLoan() != null) {
+			Menu.printNewLine();
+			account.getLoan().printSummary();
+		}
 	}
 }
