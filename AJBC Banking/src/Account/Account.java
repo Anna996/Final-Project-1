@@ -72,6 +72,7 @@ public class Account {
 	private void handleNewActivityData(ActivityName activityName, String info, double balanceChange) {
 		ActivityData activityData;
 		
+		setBalance(balance - this.operationFee); 
 		activityData = new ActivityData(activityName, LocalDateTime.now(), info, balanceChange);
 		addActivityData(activityData);
 		activityData = new ActivityData(ActivityName.FEE_COLLECTION, LocalDateTime.now(), "Fee operation to bank", -this.operationFee);
@@ -144,6 +145,9 @@ public class Account {
 		if (amount <= MAX_FOR_BILL) {
 			setBalance(balance - amount);
 			handleNewActivityData(ActivityName.PAY_BILL, "Payee: " + payee, -amount);
+			if(payee.equals(Payee.AJBC_BANK.toString())) {
+				manager.getBillPayment(amount);
+			}
 			return true;
 		} else {
 			System.out.printf("Cannot do the oparation. The maximum for bill payment is %d.\n", MAX_FOR_BILL);

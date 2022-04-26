@@ -122,7 +122,6 @@ public class AppManager {
 		logout();
 	}
 
-	// TODO update manager menu
 	private void handleManagerMenu() {
 		BankManager manger = (BankManager) currentUser;
 		int input = 1;
@@ -139,11 +138,11 @@ public class AppManager {
 				manger.setAndApproveUsers();
 				break;
 			case 2:
-				
-				break;
-			case 3:
 				manger.getActivityReport();
 				break;
+			case 3:
+				handleRegularMenu();
+				return;
 			}
 		}
 	}

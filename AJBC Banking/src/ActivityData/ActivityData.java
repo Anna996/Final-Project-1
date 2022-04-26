@@ -39,6 +39,10 @@ public class ActivityData {
 		return balanceChange;
 	}
 
+	public String getInfo() {
+		return info;
+	}
+
 	@Override
 	public String toString() {
 		return "Activity data: [activityName= " + activityName + ", timeStamp= " + timeStamp + ", info= " + info

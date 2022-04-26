@@ -74,13 +74,11 @@ public class BankManager extends AccountOwner {
 		Account account = super.getAccount();
 		ActivityData[] activities = account.getActivitiesDataFrom(timestamp);
 		
-		
 		for (ActivityData data : activities) {
-			System.out.println("Date: "+ getDate(data.getTimeStamp()) + " , change in balance: " + data.getBalanceChange());
+			System.out.println("Date: "+ getDate(data.getTimeStamp()) + " , change in balance: " + data.getBalanceChange() + " , info: " + data.getInfo());
 		}
 		
 		Menu.printNewLine();
-		System.out.print("Current balance: ");
 		checkBalance();	
 	}
 	
@@ -89,10 +87,18 @@ public class BankManager extends AccountOwner {
 	}
 
 	public void makeFeeCollectionPayBill(ActivityName activityName, double fee) {
-		ActivityData activityData = new ActivityData(ActivityName.FEE_COLLECTION, LocalDateTime.now(), activityName.toString(), fee);
+		ActivityData activityData = new ActivityData(ActivityName.FEE_COLLECTION, LocalDateTime.now(), "fee paymente: "+activityName.toString(), fee);
 		Account account = super.getAccount();
 	
 		account.setBalance(account.getBalance() + fee);
+		account.addActivityData(activityData);
+	}
+	
+	public void getBillPayment(int amount) {
+		ActivityData activityData = new ActivityData(ActivityName.DEPOSIT_CASH, LocalDateTime.now(), "received bill payment", amount);
+		Account account = super.getAccount();
+	
+		account.setBalance(account.getBalance() + amount);
 		account.addActivityData(activityData);
 	}
 }
