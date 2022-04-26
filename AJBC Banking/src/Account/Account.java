@@ -23,7 +23,7 @@ public class Account {
 	private final int MAX_TO_TRANSFER = 2000;
 	private final int MAX_FOR_BILL = 5000;
 
-	public Account(AccountProperties accountProperties, float interestRate, float operationFee,BankManager manager) {
+	public Account(AccountProperties accountProperties, float interestRate, float operationFee, BankManager manager) {
 		ACCOUNT_ID = ++accountCounter;
 		setAccountProperties(accountProperties);
 		setInterestRate(interestRate);
@@ -71,11 +71,12 @@ public class Account {
 
 	private void handleNewActivityData(ActivityName activityName, String info, double balanceChange) {
 		ActivityData activityData;
-		
-		setBalance(balance - this.operationFee); 
+
+		setBalance(balance - this.operationFee);
 		activityData = new ActivityData(activityName, LocalDateTime.now(), info, balanceChange);
 		addActivityData(activityData);
-		activityData = new ActivityData(ActivityName.FEE_COLLECTION, LocalDateTime.now(), "Fee operation to bank", -this.operationFee);
+		activityData = new ActivityData(ActivityName.FEE_COLLECTION, LocalDateTime.now(), "Fee operation to bank",
+				-this.operationFee);
 		addActivityData(activityData);
 		manager.makeFeeCollectionPayBill(activityName, this.operationFee);
 	}
@@ -128,7 +129,7 @@ public class Account {
 	public boolean transfer(int amount) {
 		if (amount <= MAX_TO_TRANSFER) {
 			setBalance(balance - amount);
-			handleNewActivityData(ActivityName.MAKE_PAYMENTTRANSFER, "transfer to another user", -amount);
+			handleNewActivityData(ActivityName.MAKE_PAYMENT_TRANSFER, "transfer to another user", -amount);
 			return true;
 		} else {
 			System.out.printf("Cannot do the oparation. The maximum to transfer is %d.\n", MAX_TO_TRANSFER);
@@ -138,14 +139,17 @@ public class Account {
 
 	public void transferredToMe(int amount) {
 		setBalance(balance + amount);
-		handleNewActivityData(ActivityName.MAKE_PAYMENTTRANSFER, "transferred from other user", amount);
+
+		ActivityData activityData = new ActivityData(ActivityName.MAKE_PAYMENT_TRANSFER, LocalDateTime.now(),
+				"transferred from other user", amount);
+		addActivityData(activityData);
 	}
 
 	public boolean payBill(int amount, String payee) {
 		if (amount <= MAX_FOR_BILL) {
 			setBalance(balance - amount);
 			handleNewActivityData(ActivityName.PAY_BILL, "Payee: " + payee, -amount);
-			if(payee.equals(Payee.AJBC_BANK.toString())) {
+			if (payee.equals(Payee.AJBC_BANK.toString())) {
 				manager.getBillPayment(amount);
 			}
 			return true;
