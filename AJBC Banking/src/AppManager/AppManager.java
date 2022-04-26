@@ -47,12 +47,8 @@ public class AppManager {
 		String fisrtName = askForName("Enter your first name: ");
 		String lastName = askForName("Enter your last name: ");
 		LocalDate birthDate = askForDateOfBirth();
-
-		System.out.print("Enter your monthly income: ");
-		double monthlyIncome = scanner.nextDouble();
-
+		double monthlyIncome = askForIncome();
 		Credentials credentials = askForCredentials();
-
 		AccountOwner accountOwner = new AccountOwner(phoneNumber, fisrtName, lastName, birthDate, credentials,
 				monthlyIncome);
 
@@ -79,6 +75,20 @@ public class AppManager {
 			}
 		}
 		return true;
+	}
+
+	private double askForIncome() {
+		double monthlyIncome;
+
+		do {
+			System.out.print("Enter your monthly income: ");
+			monthlyIncome = scanner.nextDouble();
+			if(monthlyIncome < 0) {
+				System.out.println("Monthly income has to be >= 0");
+			}
+		} while (monthlyIncome < 0);
+
+		return monthlyIncome;
 	}
 
 	private LocalDate askForDateOfBirth() {

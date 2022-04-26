@@ -95,10 +95,18 @@ public class BankManager extends AccountOwner {
 	}
 	
 	public void getBillPayment(int amount) {
-		ActivityData activityData = new ActivityData(ActivityName.DEPOSIT_CASH, LocalDateTime.now(), "received bill payment", amount);
+		ActivityData activityData = new ActivityData(ActivityName.DEPOSIT, LocalDateTime.now(), "received bill payment", amount);
 		Account account = super.getAccount();
 	
 		account.setBalance(account.getBalance() + amount);
+		account.addActivityData(activityData);
+	}
+	
+	public void getLoanFromBank(int amount) {
+		ActivityData activityData = new ActivityData(ActivityName.WITHDRAWAL, LocalDateTime.now(), "gave a loan", -amount);
+		Account account = super.getAccount();
+	
+		account.setBalance(account.getBalance() - amount);
 		account.addActivityData(activityData);
 	}
 }

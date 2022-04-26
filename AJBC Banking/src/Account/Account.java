@@ -83,7 +83,7 @@ public class Account {
 
 	public void depositCash(int amount) {
 		setBalance(balance + amount);
-		handleNewActivityData(ActivityName.DEPOSIT_CASH, "none", amount);
+		handleNewActivityData(ActivityName.DEPOSIT, "none", amount);
 	}
 
 	public ActivityData[] getActivitiesDataFrom(LocalDateTime timestamp) {
@@ -172,5 +172,6 @@ public class Account {
 		System.out.println("The amount of the monthly return: " + loan.getMonthlyPayment());
 		setBalance(balance + amount);
 		handleNewActivityData(ActivityName.GET_LOAN, "numOfPayments: " + numOfPayments, amount);
+		manager.getLoanFromBank(amount);
 	}
 }
