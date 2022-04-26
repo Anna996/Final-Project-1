@@ -76,7 +76,7 @@ public class BankManager extends AccountOwner {
 		ActivityData[] activities = account.getActivitiesDataFrom(timestamp);
 		
 		for (ActivityData data : activities) {
-			System.out.println("Date: "+ getDate(data.getTimeStamp()) + " , change in balance: " + data.getBalanceChange() + " , info: " + data.getInfo());
+			System.out.println("Date: "+ getDate(data.getTimeStamp()) + String.format(" , change in balance: %.2f",  data.getBalanceChange())  + " , info: " + data.getInfo());
 		}
 		
 		Menu.printNewLine();

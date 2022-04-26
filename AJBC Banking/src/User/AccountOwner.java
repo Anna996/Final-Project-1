@@ -58,7 +58,7 @@ public class AccountOwner extends Person {
 	}
 
 	public void checkBalance() {
-		System.out.println("Balance: " + account.getBalance());
+		System.out.printf("Balance: %.2f\n" , account.getBalance());
 	}
 
 	/**

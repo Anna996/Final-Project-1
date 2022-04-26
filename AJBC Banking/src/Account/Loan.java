@@ -6,8 +6,7 @@ public class Loan {
 	private float currentDebt;
 	private float monthlyPayment;
 	private final float INTEREST = 0.05f;
-	
-	
+
 	public Loan(int amount, int numOfPayments) {
 		setAmount(amount);
 		setNumOfPayments(numOfPayments);
@@ -22,7 +21,7 @@ public class Loan {
 	private void setNumOfPayments(int numOfPayments) {
 		this.numOfPayments = numOfPayments;
 	}
-	
+
 	private void setCurrentDebt(float currentDebt) {
 		this.currentDebt = currentDebt;
 	}
@@ -34,7 +33,7 @@ public class Loan {
 	private float calcMonthlyPayment() {
 		return currentDebt / numOfPayments;
 	}
-	
+
 	public float getMonthlyPayment() {
 		return monthlyPayment;
 	}
@@ -45,7 +44,7 @@ public class Loan {
 
 	@Override
 	public String toString() {
-		return "Loan [amount= " + amount + ", interest= " + INTEREST + ", currentDebt= " + currentDebt
-				+ ", monthlyPayment= " + monthlyPayment + "]";
+		return "Loan [amount= " + amount + ", interest= " + INTEREST + String.format(", currentDebt= %.2f", currentDebt)
+				+ String.format(", monthlyPayment= %.2f", monthlyPayment) + "]";
 	}
 }

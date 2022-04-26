@@ -51,6 +51,6 @@ public class ActivityData {
 	@Override
 	public String toString() {
 		return "Activity data: [activityName= " + activityName + ", timeStamp= " + timeStamp + ", info= " + info
-				+ ", balanceChange= " + balanceChange + "]";
+				+ String.format(", balanceChange= %.2f", balanceChange)+ "]";
 	}
 }

@@ -217,7 +217,7 @@ public class Account {
 	 */
 	public void getLoan(int amount, int numOfPayments) {
 		this.loan = new Loan(amount, numOfPayments);
-		System.out.println("The amount of the monthly return: " + loan.getMonthlyPayment());
+		System.out.printf("The amount of the monthly return: %.2f\n" , loan.getMonthlyPayment());
 		setBalance(balance + amount);
 		handleNewActivityData(ActivityName.GET_LOAN, "numOfPayments: " + numOfPayments, amount);
 		manager.getLoanFromBank(amount);

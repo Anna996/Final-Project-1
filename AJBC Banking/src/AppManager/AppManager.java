@@ -80,7 +80,7 @@ public class AppManager {
 	private boolean isValidName(String name) {
 		for (int i = 0; i < name.length(); i++) {
 			if (!Character.isLetter(name.charAt(i))) {
-				System.out.println("Name must be letter only.");
+				System.out.println("Name must be letters only.");
 				return false;
 			}
 		}
