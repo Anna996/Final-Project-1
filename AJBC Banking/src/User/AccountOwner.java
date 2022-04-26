@@ -41,6 +41,10 @@ public class AccountOwner extends Person {
 		return monthlyIncome;
 	}
 
+	protected Account getAccount() {
+		return account;
+	}
+
 	public boolean isUsernameEqualls(String username) {
 		return this.credentials.isUsernameEqualls(username);
 	}
@@ -171,9 +175,6 @@ public class AccountOwner extends Person {
 	protected void getActivityReportData(LocalDateTime timestamp) {
 		ActivityData[] activities = account.getActivitiesDataFrom(timestamp);
 		
-//		Menu.printNewLine();
-//		System.out.println("Activities:");
-//		System.out.println("===========");
 		for (ActivityData data : activities) {
 			System.out.println(data);
 		}

@@ -5,7 +5,7 @@ public class Loan {
 	private int numOfPayments;
 	private float currentDebt;
 	private float monthlyPayment;
-	private final float INTEREST = 0.2f;
+	private final float INTEREST = 0.05f;
 	
 	
 	public Loan(int amount, int numOfPayments) {

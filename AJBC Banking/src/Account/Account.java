@@ -7,6 +7,7 @@ import ActivityData.ActivityData;
 import ActivityData.ActivityName;
 import DataBase.DB;
 import User.AccountOwner;
+import User.BankManager;
 
 public class Account {
 	private final long ACCOUNT_ID;
@@ -18,21 +19,23 @@ public class Account {
 	private ActivityData[] activities;
 	private int idx;
 	private Loan loan;
+	private BankManager manager;
 	private final int MAX_TO_TRANSFER = 2000;
 	private final int MAX_FOR_BILL = 5000;
 
-	public Account(AccountProperties accountProperties, float interestRate, float operationFee) {
+	public Account(AccountProperties accountProperties, float interestRate, float operationFee,BankManager manager) {
 		ACCOUNT_ID = ++accountCounter;
 		setAccountProperties(accountProperties);
 		setInterestRate(interestRate);
 		setOperationFee(operationFee);
+		setManager(manager);
 		setBalance(0);
 		activities = new ActivityData[DB.SIZE];
 		idx = 0;
 		loan = null;
 	}
 
-	private void setBalance(double balance) {
+	public void setBalance(double balance) {
 		this.balance = balance;
 	}
 
@@ -50,11 +53,15 @@ public class Account {
 		this.operationFee = inRange ? operationFee : accountProperties.maxOperationFee;
 	}
 
+	private void setManager(BankManager manager) {
+		this.manager = manager;
+	}
+
 	public double getBalance() {
 		return balance;
 	}
 
-	private void addActivityData(ActivityData activityData) {
+	public void addActivityData(ActivityData activityData) {
 		if (idx >= activities.length) {
 			System.out.println("Overflow! class: Account. cant add another activityData.");
 			return;
@@ -63,8 +70,13 @@ public class Account {
 	}
 
 	private void handleNewActivityData(ActivityName activityName, String info, double balanceChange) {
-		ActivityData activityData = new ActivityData(activityName, LocalDateTime.now(), info, balanceChange);
+		ActivityData activityData;
+		
+		activityData = new ActivityData(activityName, LocalDateTime.now(), info, balanceChange);
 		addActivityData(activityData);
+		activityData = new ActivityData(ActivityName.FEE_COLLECTION, LocalDateTime.now(), "Fee operation to bank", -this.operationFee);
+		addActivityData(activityData);
+		manager.makeFeeCollectionPayBill(activityName, this.operationFee);
 	}
 
 	public void depositCash(int amount) {

@@ -23,7 +23,7 @@ public class Runner {
 		AppManager appManager = new AppManager(manager);
 		int input = 1;
 
-		addDefaultUserToDB();
+		addDefaultUserToDB(manager);
 		while (input != 0) {
 			Menu.printWelcomeMenu();
 			Menu.printEnterYourChoise();
@@ -50,12 +50,12 @@ public class Runner {
 		return new BankManager(phoneNumber, "Avi", "Levi", birthDate, credentials);
 	}
 
-	private static void addDefaultUserToDB() {
+	private static void addDefaultUserToDB(BankManager manager) {
 		PhoneNumber phoneNumber = new PhoneNumber("054", "5555554");
 		LocalDate birthDate = LocalDate.of(1960, 10, 27);
 		Credentials credentials = new Credentials("b", "b");
 		AccountOwner user = new AccountOwner(phoneNumber, "Noa", "Levi", birthDate, credentials, 8000);
-		Account account = new Account(AccountProperties.BRONZE, 4.5f, 5);
+		Account account = new Account(AccountProperties.BRONZE, 4.5f, 5, manager);
 
 		user.setAccount(account);
 		DB.addUser(user);

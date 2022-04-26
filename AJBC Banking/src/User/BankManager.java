@@ -5,7 +5,10 @@ import java.time.LocalDateTime;
 
 import Account.Account;
 import Account.AccountProperties;
+import ActivityData.ActivityData;
+import ActivityData.ActivityName;
 import DataBase.DB;
+import Menu.Menu;
 
 public class BankManager extends AccountOwner {
 	private AccountOwner[] usersToApprove;
@@ -56,25 +59,40 @@ public class BankManager extends AccountOwner {
 			operationFee = properties.getMaxOperationFee();
 		}
 
-		Account account = new Account(properties, interestRate, operationFee);
+		Account account = new Account(properties, interestRate, operationFee, this);
 
 		user.setAccount(account);
 	}
 
 	private void setBankAccount() {
-		Account account = new Account(AccountProperties.TITANIUM, 0, 0);
+		Account account = new Account(AccountProperties.TITANIUM, 0, 0, this);
 		setAccount(account);
 	}
 
-	// TODO activity report for manager
 	@Override
 	protected void getActivityReportData(LocalDateTime timestamp) {
-		checkBalance();
-		// TODO change in balance since the given date.
+		Account account = super.getAccount();
+		ActivityData[] activities = account.getActivitiesDataFrom(timestamp);
+		
+		
+		for (ActivityData data : activities) {
+			System.out.println("Date: "+ getDate(data.getTimeStamp()) + " , change in balance: " + data.getBalanceChange());
+		}
+		
+		Menu.printNewLine();
+		System.out.print("Current balance: ");
+		checkBalance();	
 	}
 	
-	//TODO getFeeCollectionPayBill
-	public void getFeeCollectionPayBill() {
-		
+	private LocalDate getDate(LocalDateTime timestamp) {
+		return LocalDate.of(timestamp.getYear(), timestamp.getMonth(), timestamp.getDayOfMonth());
+	}
+
+	public void makeFeeCollectionPayBill(ActivityName activityName, double fee) {
+		ActivityData activityData = new ActivityData(ActivityName.FEE_COLLECTION, LocalDateTime.now(), activityName.toString(), fee);
+		Account account = super.getAccount();
+	
+		account.setBalance(account.getBalance() + fee);
+		account.addActivityData(activityData);
 	}
 }

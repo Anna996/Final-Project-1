@@ -35,6 +35,10 @@ public class ActivityData {
 		return timeStamp;
 	}
 
+	public double getBalanceChange() {
+		return balanceChange;
+	}
+
 	@Override
 	public String toString() {
 		return "Activity data: [activityName= " + activityName + ", timeStamp= " + timeStamp + ", info= " + info
