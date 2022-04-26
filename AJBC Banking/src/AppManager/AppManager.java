@@ -12,6 +12,12 @@ import User.BankManager;
 import User.Credentials;
 import User.PhoneNumber;
 
+/**
+ * Manages the flow of the different parts of the bank system.
+ * 
+ * @author Anna Aba
+ *
+ */
 public class AppManager {
 	private Scanner scanner;
 	private BankManager manager;
@@ -26,6 +32,10 @@ public class AppManager {
 		this.manager = manager;
 	}
 
+	/**
+	 * Asks for phone number - if exists in the database than jumps to login,
+	 * otherwise open new user account.
+	 */
 	public void openAccount() {
 		System.out.println("Openning account...");
 		System.out.print("Enter your phone number: ");
@@ -83,7 +93,7 @@ public class AppManager {
 		do {
 			System.out.print("Enter your monthly income: ");
 			monthlyIncome = scanner.nextDouble();
-			if(monthlyIncome < 0) {
+			if (monthlyIncome < 0) {
 				System.out.println("Monthly income has to be >= 0");
 			}
 		} while (monthlyIncome < 0);
@@ -124,6 +134,11 @@ public class AppManager {
 		return new Credentials(username, password);
 	}
 
+	/**
+	 * Asks for user's user-name and password. It gives the user only 3 attempts, if
+	 * the user fails to give accurate credentials, then the front-end blocked for
+	 * 30 minutes.
+	 */
 	public void login() {
 		String username, password;
 		AccountOwner userFromDB = null;
@@ -160,6 +175,7 @@ public class AppManager {
 		lockUser();
 	}
 
+	// After the user is Logged in, the system shows him the right menu.
 	private void userIsInTheSystem() {
 		Menu.printNewLine();
 		System.out.printf("Hello %s !\n", currentUser.getFullName());
@@ -238,6 +254,7 @@ public class AppManager {
 		}
 	}
 
+	// Blocks the system with while loop, for 30 minutes.
 	private void lockUser() {
 		LocalTime realseTime = LocalTime.now().plusMinutes(30);
 

@@ -2,6 +2,11 @@ package ActivityData;
 
 import java.time.LocalDateTime;
 
+/**
+ * Saves the data of the activity that was made.
+ * @author Anna Aba
+ *
+ */
 public class ActivityData {
 	private ActivityName activityName;
 	private LocalDateTime timeStamp;

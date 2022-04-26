@@ -68,7 +68,8 @@ public class BankManager extends AccountOwner {
 		Account account = new Account(AccountProperties.TITANIUM, 0, 0, this);
 		setAccount(account);
 	}
-
+	
+	// Shows manager-report of the change in balance of the bank account from the date of the time-stamp until now, and also shows the balance.
 	@Override
 	protected void getActivityReportData(LocalDateTime timestamp) {
 		Account account = super.getAccount();
@@ -86,14 +87,23 @@ public class BankManager extends AccountOwner {
 		return LocalDate.of(timestamp.getYear(), timestamp.getMonth(), timestamp.getDayOfMonth());
 	}
 
+	/**
+	 * Gets the fee payment and updates the balance.
+	 * @param activityName  the type of the activity that was made.
+	 * @param fee the amount of the payment.
+	 */
 	public void makeFeeCollectionPayBill(ActivityName activityName, double fee) {
-		ActivityData activityData = new ActivityData(ActivityName.FEE_COLLECTION, LocalDateTime.now(), "fee paymente: "+activityName.toString(), fee);
+		ActivityData activityData = new ActivityData(ActivityName.FEE_COLLECTION, LocalDateTime.now(), "fee paymente for: "+activityName.toString(), fee);
 		Account account = super.getAccount();
 	
 		account.setBalance(account.getBalance() + fee);
 		account.addActivityData(activityData);
 	}
 	
+	/**
+	 * Gets the bill payment and updates the balance.
+	 * @param amount bill amount.
+	 */
 	public void getBillPayment(int amount) {
 		ActivityData activityData = new ActivityData(ActivityName.DEPOSIT, LocalDateTime.now(), "received bill payment", amount);
 		Account account = super.getAccount();
@@ -102,6 +112,10 @@ public class BankManager extends AccountOwner {
 		account.addActivityData(activityData);
 	}
 	
+	/**
+	 * Gets loan amount that the manager has to give and withdrawal from the bank account.
+	 * @param amount loan amount.
+	 */
 	public void getLoanFromBank(int amount) {
 		ActivityData activityData = new ActivityData(ActivityName.WITHDRAWAL, LocalDateTime.now(), "gave a loan", -amount);
 		Account account = super.getAccount();

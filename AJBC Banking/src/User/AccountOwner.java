@@ -61,6 +61,9 @@ public class AccountOwner extends Person {
 		System.out.println("Balance: " + account.getBalance());
 	}
 
+	/**
+	 * Asks the user for code authentication and the amount of money to deposit. Than makes the activity.
+	 */
 	public void depositCash() {
 		int code = generateAuthenticationCode();
 
@@ -91,6 +94,9 @@ public class AccountOwner extends Person {
 		return code;
 	}
 
+	/**
+	 * Asks the user for amount to withdrawal. Than makes the activity.
+	 */
 	public void makeWithdrawal() {
 		System.out.print("Enter amount to withdrawal: ");
 		int amount = StaticScanner.scanner.nextInt();
@@ -101,6 +107,9 @@ public class AccountOwner extends Person {
 		}
 	}
 
+	/**
+	 * Asks the user for the receiver's phone number, and the amount to transfer. Than transfer the funds.
+	 */
 	public void transferFunds() {
 		System.out.print("Enter phone number of the receiver: ");
 		String numberStr = StaticScanner.scanner.next();
@@ -119,6 +128,9 @@ public class AccountOwner extends Person {
 		}
 	}
 
+	/**
+	 * Asks the user to choose the company to pay for, and the amount of the bill. Than makes the activity.
+	 */
 	public void payBill() {
 		System.out.println("Choose the payee: ");
 		for(Payee payee : Payee.values()) {
@@ -134,6 +146,9 @@ public class AccountOwner extends Person {
 		}
 	}
 
+	/**
+	 * Asks the user for the loan amount, and the number of return payments. Than creates the loan.
+	 */
 	public void askForLoan() {
 		System.out.print("Enter loan amount: ");
 		int loanAmount = StaticScanner.scanner.nextInt();
@@ -155,6 +170,9 @@ public class AccountOwner extends Person {
 		}
 	}
 
+	/**
+	 * Asks the user for date start. Than shows the report.
+	 */
 	public void getActivityReport() {
 		Scanner scanner = StaticScanner.scanner;
 
@@ -172,6 +190,7 @@ public class AccountOwner extends Person {
 		getActivityReportData(LocalDateTime.of(year, month, day, 0, 0));
 	}
 
+	// Regular user report that shows the activities that were made from that date, and also current balance and summary loan if exists.
 	protected void getActivityReportData(LocalDateTime timestamp) {
 		ActivityData[] activities = account.getActivitiesDataFrom(timestamp);
 		

@@ -9,6 +9,11 @@ import DataBase.DB;
 import User.AccountOwner;
 import User.BankManager;
 
+/**
+ * Represents bank account that belongs to one of the bank's customers.
+ * @author Anna Aba
+ *
+ */
 public class Account {
 	private final long ACCOUNT_ID;
 	private static long accountCounter = 0;
@@ -61,6 +66,10 @@ public class Account {
 		return balance;
 	}
 
+	/**
+	 * Adds an activity to the activities array.
+	 * @param activityData the activity to add to the array.
+	 */
 	public void addActivityData(ActivityData activityData) {
 		if (idx >= activities.length) {
 			System.out.println("Overflow! class: Account. cant add another activityData.");
@@ -69,6 +78,7 @@ public class Account {
 		activities[idx++] = activityData;
 	}
 
+	// Creates new activities, adds them to the array, updates the balance and call the manager to take the fee collection. 
 	private void handleNewActivityData(ActivityName activityName, String info, double balanceChange) {
 		ActivityData activityData;
 
@@ -81,11 +91,20 @@ public class Account {
 		manager.makeFeeCollectionPayBill(activityName, this.operationFee);
 	}
 
+	/**
+	 * Deposit the amount to the account balance.
+	 * @param amount to deposit to the account.
+	 */
 	public void depositCash(int amount) {
 		setBalance(balance + amount);
 		handleNewActivityData(ActivityName.DEPOSIT, "none", amount);
 	}
 
+	/**
+	 * Gets all the activities that were made that day and after the day of the time-stamp.
+	 * @param timestamp the required date.
+	 * @return activities array.
+	 */
 	public ActivityData[] getActivitiesDataFrom(LocalDateTime timestamp) {
 		LocalDateTime activityTimestamp;
 		int i = 0;
@@ -115,6 +134,11 @@ public class Account {
 		return date2.isAfter(date1) || date2.isEqual(date1);
 	}
 
+	/**
+	 * Withdrawal the amount from the account balance.
+	 * @param amount the required amount to withdrawal.
+	 * @return if the operation was made successfully.
+	 */
 	public boolean withdrawalCash(int amount) {
 		if (amount <= accountProperties.maxWithdrawalAmount) {
 			setBalance(balance - amount);
@@ -126,6 +150,11 @@ public class Account {
 		}
 	}
 
+	/**
+	 * Transfer the amount from the account balance if the amount is less than maximum allowed.
+	 * @param amount the required amount to transfer to other user.
+	 * @return if the operation was made successfully.
+	 */
 	public boolean transfer(int amount) {
 		if (amount <= MAX_TO_TRANSFER) {
 			setBalance(balance - amount);
@@ -137,6 +166,10 @@ public class Account {
 		}
 	}
 
+	/**
+	 * Transfer the amount to me from another user.
+	 * @param amount the required amount that was transfered to me.
+	 */
 	public void transferredToMe(int amount) {
 		setBalance(balance + amount);
 
@@ -145,6 +178,12 @@ public class Account {
 		addActivityData(activityData);
 	}
 
+	/**
+	 * Pay a bill to a specific company.
+	 * @param amount the required amount to pay,
+	 * @param payee the string version of the enum that represents the company.
+	 * @return if the operation was made successfully.
+	 */
 	public boolean payBill(int amount, String payee) {
 		if (amount <= MAX_FOR_BILL) {
 			setBalance(balance - amount);
@@ -163,10 +202,19 @@ public class Account {
 		return amount <= accountProperties.maxLoanAmmount;
 	}
 
+	/**
+	 * Getter for Loan object.
+	 * @return
+	 */
 	public Loan getLoan() {
 		return this.loan;
 	}
 
+	/**
+	 * Creates new object of Loan class and updates the balance, and the manager.
+	 * @param amount loan amount the account gets.
+	 * @param numOfPayments number of payments to return the loan.
+	 */
 	public void getLoan(int amount, int numOfPayments) {
 		this.loan = new Loan(amount, numOfPayments);
 		System.out.println("The amount of the monthly return: " + loan.getMonthlyPayment());

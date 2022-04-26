@@ -1,7 +1,5 @@
 package User;
 
-import java.util.Objects;
-
 public class PhoneNumber {
 	private String preffix;
 	private String body;
@@ -22,6 +20,7 @@ public class PhoneNumber {
 		this.body = isValidtNumberPart(body, "body", BODY_SIZE) ? body : null;
 	}
 
+	// Checks if the phone-part is of a required length and contains only digits.
 	private static boolean isValidtNumberPart(String numberPart, String name, int size) {
 		if (numberPart.length() != size) {
 			printErrorMsg(name, size);
@@ -41,10 +40,11 @@ public class PhoneNumber {
 		System.out.printf("PhoneNumber %s has to be of size %d and only digits\n", name, size);
 	}
 
-	public String getPhoneNumber() {
-		return String.format("%s-%s", preffix, body);
-	}
-
+	/**
+	 * Creates new instance of PhoneNumber with the data it got from the string parameter.
+	 * @param phoneNumber string of required data to create PhoneNumber.
+	 * @return if the string is valid, new instance of PhoneNumber, otherwise returns null.
+	 */
 	public static PhoneNumber getPhoneNumber(String phoneNumber) {
 		if(phoneNumber.length() != PREFFIX_SIZE + BODY_SIZE) {
 			System.out.println("Invalid phone number");

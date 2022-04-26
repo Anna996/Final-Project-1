@@ -27,6 +27,11 @@ public class Credentials {
 		return this.password.equals(password);
 	}
 
+	/**
+	 * Checks if the user name contains letters and/or digits only.
+	 * @param username string to check.
+	 * @return true if valid.
+	 */
 	public static boolean isUsernameValid(String username) {
 		for (int i = 0; i < username.length(); i++) {
 			if (!Character.isLetterOrDigit(username.charAt(i))) {
@@ -37,6 +42,11 @@ public class Credentials {
 		return true;
 	}
 
+	/**
+	 * Checks if the password is of required length and contains letters and digits only.
+	 * @param password string to check.
+	 * @return true if valid.
+	 */
 	public static boolean isPasswordValid(String password) {
 		int length = password.length();
 
