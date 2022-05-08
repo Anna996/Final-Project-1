@@ -222,4 +222,34 @@ public class AccountOwner extends Person {
 			account.getLoan().printSummary();
 		}
 	}
+
+	public void showMenu() {
+		Menu.printActivitiesMenu();		
+	}
+
+	public void chooseMenuItem(int input) {
+		switch (input) {
+		case 1:
+			checkBalance();
+			break;
+		case 2:
+			depositCash();
+			break;
+		case 3:
+			makeWithdrawal();
+			break;
+		case 4:
+			transferFunds();
+			break;
+		case 5:
+			payBill();
+			break;
+		case 6:
+			askForLoan();
+			break;
+		case 7:
+			getActivityReport();
+			break;
+		}
+	}
 }

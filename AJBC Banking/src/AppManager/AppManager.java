@@ -182,11 +182,7 @@ public class AppManager {
 		System.out.println("you are logged in.");
 		if (currentUser.hasAccount()) {
 			currentUser.setAccountBankManager();
-			if (currentUser instanceof BankManager) {
-				handleManagerMenu();
-			} else {
-				handleRegularMenu();
-			}
+			handleMenu();
 		} else {
 			Menu.printApplicationWaitting();
 		}
@@ -194,62 +190,17 @@ public class AppManager {
 		logout();
 	}
 
-	private void handleManagerMenu() {
-		BankManager manger = (BankManager) currentUser;
-		int input = 1;
+	private void handleMenu() {
+		int input;
 
-		while (input != 0) {
+		do {
 			Menu.printNewLine();
-			Menu.printManagerMenu();
+			currentUser.showMenu();
 			Menu.printEnterYourChoise();
 			input = scanner.nextInt();
 			Menu.printNewLine();
-
-			switch (input) {
-			case 1:
-				manger.setAndApproveUsers();
-				break;
-			case 2:
-				manger.getActivityReport();
-				break;
-			}
-		}
-	}
-
-	private void handleRegularMenu() {
-		int input = 1;
-
-		while (input != 0) {
-			Menu.printNewLine();
-			Menu.printActivitiesMenu();
-			Menu.printEnterYourChoise();
-			input = scanner.nextInt();
-			Menu.printNewLine();
-
-			switch (input) {
-			case 1:
-				currentUser.checkBalance();
-				break;
-			case 2:
-				currentUser.depositCash();
-				break;
-			case 3:
-				currentUser.makeWithdrawal();
-				break;
-			case 4:
-				currentUser.transferFunds();
-				break;
-			case 5:
-				currentUser.payBill();
-				break;
-			case 6:
-				currentUser.askForLoan();
-				break;
-			case 7:
-				currentUser.getActivityReport();
-				break;
-			}
-		}
+			currentUser.chooseMenuItem(input);
+		}while (input != 0);
 	}
 
 	// Blocks the system with while loop, for 30 minutes.
@@ -268,12 +219,12 @@ public class AppManager {
 		System.out.printf("GoodBye %s !\n", currentUser.getFullName());
 		this.currentUser = null;
 	}
-	
+
 	public void startSystem() {
 		setManager(createBankManager());
 		DB.addUser(manager);
 		addDefaultUserToDB(manager);
-		
+
 		int input = 1;
 		while (input != 0) {
 			Menu.printWelcomeMenu();
@@ -292,7 +243,7 @@ public class AppManager {
 		System.out.println("The system is off.");
 		scanner.close();
 	}
-	
+
 	private BankManager createBankManager() {
 		PhoneNumber phoneNumber = new PhoneNumber("054", "5555555");
 		LocalDate birthDate = LocalDate.of(1960, 10, 27);
@@ -300,7 +251,7 @@ public class AppManager {
 
 		return new BankManager(phoneNumber, "Avi", "Levi", birthDate, credentials);
 	}
-	
+
 	private void addDefaultUserToDB(BankManager manager) {
 		PhoneNumber phoneNumber = new PhoneNumber("054", "5555554");
 		LocalDate birthDate = LocalDate.of(1960, 10, 27);

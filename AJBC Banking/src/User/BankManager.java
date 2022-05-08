@@ -123,4 +123,21 @@ public class BankManager extends AccountOwner {
 		account.setBalance(account.getBalance() - amount);
 		account.addActivityData(activityData);
 	}
+	
+	@Override
+	public void showMenu() {
+		Menu.printManagerMenu();		
+	}
+	
+	@Override
+	public void chooseMenuItem(int input) {
+		switch (input) {
+		case 1:
+			setAndApproveUsers();
+			break;
+		case 2:
+			getActivityReport();
+			break;
+		}
+	}
 }
