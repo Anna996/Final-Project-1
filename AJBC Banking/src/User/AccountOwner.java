@@ -16,13 +16,17 @@ public class AccountOwner extends Person {
 	private Credentials credentials;
 	private Account account = null;
 	private double monthlyIncome;
+	private BankManager manager;
 	private final int MAX_LOAN_PAYMENTS = 60;
 
 	public AccountOwner(PhoneNumber phoneNumber, String firstName, String lastName, LocalDate birthDate,
-			Credentials credentials, double monthlyIncome) {
+			Credentials credentials, double monthlyIncome, BankManager manager) {
 		super(phoneNumber, firstName, lastName, birthDate);
 		setCredentials(credentials);
 		setMonthlyIncome(monthlyIncome);
+		setBankManager(manager);
+		if (manager != null)
+			this.manager.addUserToApprove(this);
 	}
 
 	private void setCredentials(Credentials credentials) {
@@ -35,6 +39,16 @@ public class AccountOwner extends Person {
 
 	public void setAccount(Account account) {
 		this.account = account;
+	}
+
+	private void setBankManager(BankManager bankManager) {
+		this.manager = bankManager;
+	}
+
+	public void setAccountBankManager() {
+		if(account.getManager() == null) {
+			account.setManager(manager);
+		}
 	}
 
 	public double getMonthlyIncome() {
@@ -58,11 +72,12 @@ public class AccountOwner extends Person {
 	}
 
 	public void checkBalance() {
-		System.out.printf("Balance: %.2f\n" , account.getBalance());
+		System.out.printf("Balance: %.2f\n", account.getBalance());
 	}
 
 	/**
-	 * Asks the user for code authentication and the amount of money to deposit. Than makes the activity.
+	 * Asks the user for code authentication and the amount of money to deposit.
+	 * Than makes the activity.
 	 */
 	public void depositCash() {
 		int code = generateAuthenticationCode();
@@ -108,7 +123,8 @@ public class AccountOwner extends Person {
 	}
 
 	/**
-	 * Asks the user for the receiver's phone number, and the amount to transfer. Than transfer the funds.
+	 * Asks the user for the receiver's phone number, and the amount to transfer.
+	 * Than transfer the funds.
 	 */
 	public void transferFunds() {
 		System.out.print("Enter phone number of the receiver: ");
@@ -129,43 +145,42 @@ public class AccountOwner extends Person {
 	}
 
 	/**
-	 * Asks the user to choose the company to pay for, and the amount of the bill. Than makes the activity.
+	 * Asks the user to choose the company to pay for, and the amount of the bill.
+	 * Than makes the activity.
 	 */
 	public void payBill() {
 		System.out.println("Choose the payee: ");
-		for(Payee payee : Payee.values()) {
-			System.out.println(Payee.getId(payee) +". " + payee);
+		for (Payee payee : Payee.values()) {
+			System.out.println(Payee.getId(payee) + ". " + payee);
 		}
-		
+
 		Menu.printEnterYourChoise();
 		int payee = StaticScanner.scanner.nextInt();
 		System.out.print("Enter the bill amount: ");
 		int amount = StaticScanner.scanner.nextInt();
-		if(account.payBill(amount, Payee.getPayee(payee).toString())) {
+		if (account.payBill(amount, Payee.getPayee(payee).toString())) {
 			System.out.printf("Successful bill paying of %d was made.\n", amount);
 		}
 	}
 
 	/**
-	 * Asks the user for the loan amount, and the number of return payments. Than creates the loan.
+	 * Asks the user for the loan amount, and the number of return payments. Than
+	 * creates the loan.
 	 */
 	public void askForLoan() {
 		System.out.print("Enter loan amount: ");
 		int loanAmount = StaticScanner.scanner.nextInt();
-		
-		if(account.isLoanAmountAcceptable(loanAmount))
-		{
+
+		if (account.isLoanAmountAcceptable(loanAmount)) {
 			System.out.print("Enter the number of monthly payments: ");
 			int numOfMonthlyPayments = StaticScanner.scanner.nextInt();
-			if(numOfMonthlyPayments <= MAX_LOAN_PAYMENTS) {
+			if (numOfMonthlyPayments <= MAX_LOAN_PAYMENTS) {
 				account.getLoan(loanAmount, numOfMonthlyPayments);
 				System.out.printf("Successful received loan amount of %d.\n", loanAmount);
-			}
-			else {
+			} else {
 				System.out.println("Cannot do the oparation. The amount exceeds the maximum payments number.");
 			}
-		}
-		else {
+		} else {
 			System.out.println("Cannot do the oparation. The amount exceeds the maximum loan amount.");
 		}
 	}
@@ -190,10 +205,11 @@ public class AccountOwner extends Person {
 		getActivityReportData(LocalDateTime.of(year, month, day, 0, 0));
 	}
 
-	// Regular user report that shows the activities that were made from that date, and also current balance and summary loan if exists.
+	// Regular user report that shows the activities that were made from that date,
+	// and also current balance and summary loan if exists.
 	protected void getActivityReportData(LocalDateTime timestamp) {
 		ActivityData[] activities = account.getActivitiesDataFrom(timestamp);
-		
+
 		for (ActivityData data : activities) {
 			System.out.println(data);
 		}
@@ -201,7 +217,7 @@ public class AccountOwner extends Person {
 		Menu.printNewLine();
 		checkBalance();
 
-		if(account.getLoan() != null) {
+		if (account.getLoan() != null) {
 			Menu.printNewLine();
 			account.getLoan().printSummary();
 		}

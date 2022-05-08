@@ -54,8 +54,8 @@ public class Runner {
 		PhoneNumber phoneNumber = new PhoneNumber("054", "5555554");
 		LocalDate birthDate = LocalDate.of(1960, 10, 27);
 		Credentials credentials = new Credentials("n", "nn11");
-		AccountOwner user = new AccountOwner(phoneNumber, "Noa", "Levi", birthDate, credentials, 8000);
-		Account account = new Account(AccountProperties.BRONZE, 4.5f, 5, manager);
+		AccountOwner user = new AccountOwner(phoneNumber, "Noa", "Levi", birthDate, credentials, 8000, manager);
+		Account account = new Account(AccountProperties.BRONZE, 4.5f, 5);
 
 		user.setAccount(account);
 		DB.addUser(user);

@@ -16,7 +16,7 @@ public class BankManager extends AccountOwner {
 
 	public BankManager(PhoneNumber phoneNumber, String firstName, String lastName, LocalDate birthDate,
 			Credentials credentials) {
-		super(phoneNumber, firstName, lastName, birthDate, credentials, 0);
+		super(phoneNumber, firstName, lastName, birthDate, credentials, 0, null);
 		this.usersToApprove = new AccountOwner[DB.SIZE];
 		this.idx = 0;
 		setBankAccount();
@@ -59,13 +59,13 @@ public class BankManager extends AccountOwner {
 			operationFee = properties.getMaxOperationFee();
 		}
 
-		Account account = new Account(properties, interestRate, operationFee, this);
+		Account account = new Account(properties, interestRate, operationFee);
 
 		user.setAccount(account);
 	}
 
 	private void setBankAccount() {
-		Account account = new Account(AccountProperties.TITANIUM, 0, 0, this);
+		Account account = new Account(AccountProperties.TITANIUM, 0, 0);
 		setAccount(account);
 	}
 	

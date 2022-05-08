@@ -28,12 +28,11 @@ public class Account {
 	private final int MAX_TO_TRANSFER = 2000;
 	private final int MAX_FOR_BILL = 5000;
 
-	public Account(AccountProperties accountProperties, float interestRate, float operationFee, BankManager manager) {
+	public Account(AccountProperties accountProperties, float interestRate, float operationFee) {
 		ACCOUNT_ID = ++accountCounter;
 		setAccountProperties(accountProperties);
 		setInterestRate(interestRate);
 		setOperationFee(operationFee);
-		setManager(manager);
 		setBalance(0);
 		activities = new ActivityData[DB.SIZE];
 		idx = 0;
@@ -58,8 +57,12 @@ public class Account {
 		this.operationFee = inRange ? operationFee : accountProperties.maxOperationFee;
 	}
 
-	private void setManager(BankManager manager) {
+	public void setManager(BankManager manager) {
 		this.manager = manager;
+	}
+	
+	public BankManager getManager() {
+		return manager;
 	}
 
 	public double getBalance() {

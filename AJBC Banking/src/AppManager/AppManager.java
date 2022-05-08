@@ -60,9 +60,8 @@ public class AppManager {
 		double monthlyIncome = askForIncome();
 		Credentials credentials = askForCredentials();
 		AccountOwner accountOwner = new AccountOwner(phoneNumber, fisrtName, lastName, birthDate, credentials,
-				monthlyIncome);
+				monthlyIncome, manager);
 
-		manager.addUserToApprove(accountOwner);
 		DB.addUser(accountOwner);
 	}
 
@@ -181,6 +180,7 @@ public class AppManager {
 		System.out.printf("Hello %s !\n", currentUser.getFullName());
 		System.out.println("you are logged in.");
 		if (currentUser.hasAccount()) {
+			currentUser.setAccountBankManager();
 			if (currentUser instanceof BankManager) {
 				handleManagerMenu();
 			} else {
