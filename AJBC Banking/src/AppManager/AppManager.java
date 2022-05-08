@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Scanner;
 
+import Account.Account;
+import Account.AccountProperties;
 import DataBase.DB;
 import Menu.Menu;
 import StaticScanner.StaticScanner;
@@ -23,9 +25,8 @@ public class AppManager {
 	private BankManager manager;
 	private AccountOwner currentUser;
 
-	public AppManager(BankManager manager) {
+	public AppManager() {
 		scanner = StaticScanner.scanner;
-		setManager(manager);
 	}
 
 	private void setManager(BankManager manager) {
@@ -211,9 +212,6 @@ public class AppManager {
 			case 2:
 				manger.getActivityReport();
 				break;
-			case 3:
-				handleRegularMenu();
-				return;
 			}
 		}
 	}
@@ -269,5 +267,48 @@ public class AppManager {
 		Menu.printNewLine();
 		System.out.printf("GoodBye %s !\n", currentUser.getFullName());
 		this.currentUser = null;
+	}
+	
+	public void startSystem() {
+		setManager(createBankManager());
+		DB.addUser(manager);
+		addDefaultUserToDB(manager);
+		
+		int input = 1;
+		while (input != 0) {
+			Menu.printWelcomeMenu();
+			Menu.printEnterYourChoise();
+			input = scanner.nextInt();
+			Menu.printNewLine();
+			if (input == 1) {
+				openAccount();
+			} else if (input == 2) {
+				login();
+			}
+
+			Menu.printNewLine();
+		}
+
+		System.out.println("The system is off.");
+		scanner.close();
+	}
+	
+	private BankManager createBankManager() {
+		PhoneNumber phoneNumber = new PhoneNumber("054", "5555555");
+		LocalDate birthDate = LocalDate.of(1960, 10, 27);
+		Credentials credentials = new Credentials("m", "mm11");
+
+		return new BankManager(phoneNumber, "Avi", "Levi", birthDate, credentials);
+	}
+	
+	private void addDefaultUserToDB(BankManager manager) {
+		PhoneNumber phoneNumber = new PhoneNumber("054", "5555554");
+		LocalDate birthDate = LocalDate.of(1960, 10, 27);
+		Credentials credentials = new Credentials("n", "nn11");
+		AccountOwner user = new AccountOwner(phoneNumber, "Noa", "Levi", birthDate, credentials, 8000, manager);
+		Account account = new Account(AccountProperties.BRONZE, 4.5f, 5);
+
+		user.setAccount(account);
+		DB.addUser(user);
 	}
 }

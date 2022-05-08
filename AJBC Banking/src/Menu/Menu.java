@@ -39,7 +39,6 @@ public class Menu {
 		System.out.println("====================");
 		System.out.println("1. Set and approve users that are waiting");
 		System.out.println("2. Bank activity report");
-		System.out.println("3. Regular menu");
 		System.out.println("0. Log out");
 	}
 }
