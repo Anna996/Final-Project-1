@@ -11,7 +11,7 @@ public class Loan {
 		setAmount(amount);
 		setNumOfPayments(numOfPayments);
 		setCurrentDebt(amount * (INTEREST + 1));
-		setMonthlyPayment(calcMonthlyPayment());
+		updateMonthlyPayment();
 	}
 
 	private void setAmount(int amount) {
@@ -30,8 +30,8 @@ public class Loan {
 		this.monthlyPayment = monthlyPayment;
 	}
 
-	private float calcMonthlyPayment() {
-		return currentDebt / numOfPayments;
+	private void updateMonthlyPayment() {
+		setMonthlyPayment(currentDebt / numOfPayments);
 	}
 
 	public float getMonthlyPayment() {
