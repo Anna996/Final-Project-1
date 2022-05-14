@@ -2,6 +2,8 @@ package User;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 import Account.Account;
@@ -12,33 +14,26 @@ import DataBase.DB;
 import Menu.Menu;
 
 public class BankManager extends AccountOwner {
-	private AccountOwner[] usersToApprove;
-	private int idx;
+	private List<AccountOwner> usersToApprove;
 
 	public BankManager(PhoneNumber phoneNumber, String firstName, String lastName, LocalDate birthDate,
 			Credentials credentials) {
 		super(phoneNumber, firstName, lastName, birthDate, credentials, 0, null);
-		this.usersToApprove = new AccountOwner[DB.SIZE];
-		this.idx = 0;
+		this.usersToApprove = new LinkedList<>();
 		setBankAccount();
 	}
 
 	public void addUserToApprove(AccountOwner user) {
-		if (idx >= usersToApprove.length) {
-			System.out.println("Overflow !!! class: BankManager , cant add another user to approve.");
-			return;
-		}
-
-		usersToApprove[idx++] = user;
+		usersToApprove.add(user);
 	}
 
 	public void setAndApproveUsers() {
-		for (int i = 0; i < idx; i++) {
-			setAndApproveAccount(usersToApprove[i]);
-			usersToApprove[i] = null;
+		Iterator<AccountOwner> iterator = usersToApprove.iterator();
+		while(iterator.hasNext()) {
+			setAndApproveAccount(iterator.next());
 		}
-
-		this.idx = 0;
+		
+		usersToApprove.clear();
 	}
 
 	private void setAndApproveAccount(AccountOwner user) {
