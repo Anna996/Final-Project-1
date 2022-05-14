@@ -55,7 +55,7 @@ public class AccountOwner extends Person {
 		return monthlyIncome;
 	}
 
-	protected Account getAccount() {
+	public Account getAccount() {
 		return account;
 	}
 

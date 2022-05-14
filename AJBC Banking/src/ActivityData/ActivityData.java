@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 /**
  * Saves the data of the activity that was made.
+ * 
  * @author Anna Aba
  *
  */
@@ -12,7 +13,7 @@ public class ActivityData {
 	private LocalDateTime timeStamp;
 	private String info;
 	private double balanceChange;
-	
+
 	public ActivityData(ActivityName activityName, LocalDateTime timeStamp, String info, double balanceChange) {
 		setActivityName(activityName);
 		setTimeStamp(timeStamp);
@@ -36,6 +37,10 @@ public class ActivityData {
 		this.balanceChange = balanceChange;
 	}
 
+	public ActivityName getActivityName() {
+		return activityName;
+	}
+
 	public LocalDateTime getTimeStamp() {
 		return timeStamp;
 	}
@@ -51,6 +56,6 @@ public class ActivityData {
 	@Override
 	public String toString() {
 		return "Activity data: [activityName= " + activityName + ", timeStamp= " + timeStamp + ", info= " + info
-				+ String.format(", balanceChange= %.2f", balanceChange)+ "]";
+				+ String.format(", balanceChange= %.2f", balanceChange) + "]";
 	}
 }

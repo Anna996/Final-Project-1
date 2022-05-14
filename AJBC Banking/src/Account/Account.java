@@ -11,6 +11,7 @@ import User.BankManager;
 
 /**
  * Represents bank account that belongs to one of the bank's customers.
+ * 
  * @author Anna Aba
  *
  */
@@ -21,10 +22,11 @@ public class Account {
 	private float interestRate;
 	private float operationFee;
 	private AccountProperties accountProperties;
-	private ActivityData[] activities;
+	private ActivityData[] activities; // TODO: Change to List
 	private int idx;
 	private Loan loan;
 	private BankManager manager;
+
 	private final int MAX_TO_TRANSFER = 2000;
 	private final int MAX_FOR_BILL = 5000;
 
@@ -60,7 +62,11 @@ public class Account {
 	public void setManager(BankManager manager) {
 		this.manager = manager;
 	}
-	
+
+	protected ActivityData[] getActivities() {
+		return activities;
+	}
+
 	public BankManager getManager() {
 		return manager;
 	}
@@ -71,6 +77,7 @@ public class Account {
 
 	/**
 	 * Adds an activity to the activities array.
+	 * 
 	 * @param activityData the activity to add to the array.
 	 */
 	public void addActivityData(ActivityData activityData) {
@@ -81,7 +88,8 @@ public class Account {
 		activities[idx++] = activityData;
 	}
 
-	// Creates new activities, adds them to the array, updates the balance and call the manager to take the fee collection. 
+	// Creates new activities, adds them to the array, updates the balance and call
+	// the manager to take the fee collection.
 	private void handleNewActivityData(ActivityName activityName, String info, double balanceChange) {
 		ActivityData activityData;
 
@@ -96,6 +104,7 @@ public class Account {
 
 	/**
 	 * Deposit the amount to the account balance.
+	 * 
 	 * @param amount to deposit to the account.
 	 */
 	public void depositCash(int amount) {
@@ -104,7 +113,9 @@ public class Account {
 	}
 
 	/**
-	 * Gets all the activities that were made that day and after the day of the time-stamp.
+	 * Gets all the activities that were made that day and after the day of the
+	 * time-stamp.
+	 * 
 	 * @param timestamp the required date.
 	 * @return activities array.
 	 */
@@ -139,6 +150,7 @@ public class Account {
 
 	/**
 	 * Withdrawal the amount from the account balance.
+	 * 
 	 * @param amount the required amount to withdrawal.
 	 * @return if the operation was made successfully.
 	 */
@@ -154,7 +166,9 @@ public class Account {
 	}
 
 	/**
-	 * Transfer the amount from the account balance if the amount is less than maximum allowed.
+	 * Transfer the amount from the account balance if the amount is less than
+	 * maximum allowed.
+	 * 
 	 * @param amount the required amount to transfer to other user.
 	 * @return if the operation was made successfully.
 	 */
@@ -171,6 +185,7 @@ public class Account {
 
 	/**
 	 * Transfer the amount to me from another user.
+	 * 
 	 * @param amount the required amount that was transfered to me.
 	 */
 	public void transferredToMe(int amount) {
@@ -183,8 +198,9 @@ public class Account {
 
 	/**
 	 * Pay a bill to a specific company.
+	 * 
 	 * @param amount the required amount to pay,
-	 * @param payee the string version of the enum that represents the company.
+	 * @param payee  the string version of the enum that represents the company.
 	 * @return if the operation was made successfully.
 	 */
 	public boolean payBill(int amount, String payee) {
@@ -207,6 +223,7 @@ public class Account {
 
 	/**
 	 * Getter for Loan object.
+	 * 
 	 * @return
 	 */
 	public Loan getLoan() {
@@ -215,12 +232,13 @@ public class Account {
 
 	/**
 	 * Creates new object of Loan class and updates the balance, and the manager.
-	 * @param amount loan amount the account gets.
+	 * 
+	 * @param amount        loan amount the account gets.
 	 * @param numOfPayments number of payments to return the loan.
 	 */
 	public void getLoan(int amount, int numOfPayments) {
 		this.loan = new Loan(amount, numOfPayments);
-		System.out.printf("The amount of the monthly return: %.2f\n" , loan.getMonthlyPayment());
+		System.out.printf("The amount of the monthly return: %.2f\n", loan.getMonthlyPayment());
 		setBalance(balance + amount);
 		handleNewActivityData(ActivityName.GET_LOAN, "numOfPayments: " + numOfPayments, amount);
 		manager.getLoanFromBank(amount);
