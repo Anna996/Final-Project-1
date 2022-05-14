@@ -2,6 +2,8 @@ package Account;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.LinkedList;
+import java.util.List;
 
 import ActivityData.ActivityData;
 import ActivityData.ActivityName;
@@ -22,8 +24,7 @@ public class Account {
 	private float interestRate;
 	private float operationFee;
 	private AccountProperties accountProperties;
-	private ActivityData[] activities; // TODO: Change to List
-	private int idx;
+	private List<ActivityData> activities; 
 	private Loan loan;
 	private BankManager manager;
 
@@ -36,8 +37,7 @@ public class Account {
 		setInterestRate(interestRate);
 		setOperationFee(operationFee);
 		setBalance(0);
-		activities = new ActivityData[DB.SIZE];
-		idx = 0;
+		activities = new LinkedList<>();
 		loan = null;
 	}
 
@@ -63,7 +63,7 @@ public class Account {
 		this.manager = manager;
 	}
 
-	protected ActivityData[] getActivities() {
+	protected List<ActivityData> getActivities() {
 		return activities;
 	}
 
@@ -81,11 +81,7 @@ public class Account {
 	 * @param activityData the activity to add to the array.
 	 */
 	public void addActivityData(ActivityData activityData) {
-		if (idx >= activities.length) {
-			System.out.println("Overflow! class: Account. cant add another activityData.");
-			return;
-		}
-		activities[idx++] = activityData;
+		activities.add(activityData);
 	}
 
 	// Creates new activities, adds them to the array, updates the balance and call
@@ -119,24 +115,20 @@ public class Account {
 	 * @param timestamp the required date.
 	 * @return activities array.
 	 */
-	public ActivityData[] getActivitiesDataFrom(LocalDateTime timestamp) {
+	public List<ActivityData> getActivitiesDataFrom(LocalDateTime timestamp) {
 		LocalDateTime activityTimestamp;
 		int i = 0;
 
-		while (i < idx) {
-			activityTimestamp = activities[i].getTimeStamp();
+		while (i < activities.size()) {
+			activityTimestamp = activities.get(i).getTimeStamp();
 			if (isDateAfterOrEqual(timestamp, activityTimestamp)) {
 				break;
 			}
 			i++;
 		}
 
-		ActivityData[] resultActivityData = new ActivityData[idx - i];
-
-		for (int j = 0; j < resultActivityData.length; j++, i++) {
-			resultActivityData[j] = activities[i];
-		}
-
+		List<ActivityData> resultActivityData = new LinkedList<>();
+		resultActivityData.addAll(activities.subList(i, activities.size()));
 		return resultActivityData;
 	}
 

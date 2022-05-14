@@ -2,6 +2,7 @@ package User;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import Account.Account;
 import Account.AccountProperties;
@@ -73,7 +74,7 @@ public class BankManager extends AccountOwner {
 	@Override
 	protected void getActivityReportData(LocalDateTime timestamp) {
 		Account account = super.getAccount();
-		ActivityData[] activities = account.getActivitiesDataFrom(timestamp);
+		List<ActivityData> activities = account.getActivitiesDataFrom(timestamp);
 		
 		for (ActivityData data : activities) {
 			System.out.println("Date: "+ getDate(data.getTimeStamp()) + String.format(" , change in balance: %.2f",  data.getBalanceChange())  + " , info: " + data.getInfo());

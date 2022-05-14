@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
@@ -58,17 +59,17 @@ class AccountTest {
 	}
 
 	void testActivityAfterOperation(ActivityName activityName, String info, double balanceChange) {
-		ActivityData[] activities = account.getActivities();
-		assertEquals(activityName, activities[0].getActivityName());
-		assertEquals(info, activities[0].getInfo());
-		assertEquals(balanceChange, activities[0].getBalanceChange());
+		List<ActivityData> activities = account.getActivities();
+		assertEquals(activityName, activities.get(0).getActivityName());
+		assertEquals(info, activities.get(0).getInfo());
+		assertEquals(balanceChange, activities.get(0).getBalanceChange());
 	}
 
 	void testActivityAfterFee() {
-		ActivityData[] activities = account.getActivities();
-		assertEquals(ActivityName.FEE_COLLECTION, activities[1].getActivityName());
-		assertEquals("Fee operation to bank", activities[1].getInfo());
-		assertEquals(-FEE, activities[1].getBalanceChange());
+		List<ActivityData> activities = account.getActivities();
+		assertEquals(ActivityName.FEE_COLLECTION, activities.get(1).getActivityName());
+		assertEquals("Fee operation to bank", activities.get(1).getInfo());
+		assertEquals(-FEE, activities.get(1).getBalanceChange());
 	}
 
 	@Test
@@ -120,7 +121,7 @@ class AccountTest {
 		Account managerAccount = manager.getAccount();
 		assertEquals(FEE + AMOUNT, managerAccount.getBalance());
 
-		ActivityData activity = managerAccount.getActivities()[1];
+		ActivityData activity = managerAccount.getActivities().get(1);
 		assertEquals(ActivityName.DEPOSIT, activity.getActivityName());
 		assertEquals("received bill payment", activity.getInfo());
 		assertEquals(AMOUNT, activity.getBalanceChange());
@@ -143,7 +144,7 @@ class AccountTest {
 		Account managerAccount = manager.getAccount();
 		assertEquals(FEE - LOAN_AMOUNT, managerAccount.getBalance());
 
-		ActivityData activity = managerAccount.getActivities()[1];
+		ActivityData activity = managerAccount.getActivities().get(1);
 		assertEquals(ActivityName.WITHDRAWAL, activity.getActivityName());
 		assertEquals("gave a loan", activity.getInfo());
 		assertEquals(-LOAN_AMOUNT, activity.getBalanceChange());
@@ -155,22 +156,22 @@ class AccountTest {
 		account.depositCash(AMOUNT + AMOUNT);
 		account.withdrawalCash(AMOUNT);
 		
-		ActivityData[] activities = account.getActivitiesDataFrom(timestemp);
+		List<ActivityData> activities = account.getActivitiesDataFrom(timestemp);
 		
-		assertEquals(ActivityName.DEPOSIT, activities[0].getActivityName());
-		assertEquals("none", activities[0].getInfo());
-		assertEquals(AMOUNT + AMOUNT, activities[0].getBalanceChange());
+		assertEquals(ActivityName.DEPOSIT, activities.get(0).getActivityName());
+		assertEquals("none", activities.get(0).getInfo());
+		assertEquals(AMOUNT + AMOUNT, activities.get(0).getBalanceChange());
 		
-		assertEquals(ActivityName.FEE_COLLECTION, activities[1].getActivityName());
-		assertEquals("Fee operation to bank", activities[1].getInfo());
-		assertEquals(-FEE, activities[1].getBalanceChange());
+		assertEquals(ActivityName.FEE_COLLECTION, activities.get(1).getActivityName());
+		assertEquals("Fee operation to bank", activities.get(1).getInfo());
+		assertEquals(-FEE, activities.get(1).getBalanceChange());
 		
-		assertEquals(ActivityName.WITHDRAWAL, activities[2].getActivityName());
-		assertEquals("none", activities[2].getInfo());
-		assertEquals(-AMOUNT, activities[2].getBalanceChange());
+		assertEquals(ActivityName.WITHDRAWAL, activities.get(2).getActivityName());
+		assertEquals("none", activities.get(2).getInfo());
+		assertEquals(-AMOUNT, activities.get(2).getBalanceChange());
 		
-		assertEquals(ActivityName.FEE_COLLECTION, activities[3].getActivityName());
-		assertEquals("Fee operation to bank", activities[3].getInfo());
-		assertEquals(-FEE, activities[3].getBalanceChange());
+		assertEquals(ActivityName.FEE_COLLECTION, activities.get(3).getActivityName());
+		assertEquals("Fee operation to bank", activities.get(3).getInfo());
+		assertEquals(-FEE, activities.get(3).getBalanceChange());
 	}
 }

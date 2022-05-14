@@ -2,6 +2,7 @@ package User;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -208,7 +209,7 @@ public class AccountOwner extends Person {
 	// Regular user report that shows the activities that were made from that date,
 	// and also current balance and summary loan if exists.
 	protected void getActivityReportData(LocalDateTime timestamp) {
-		ActivityData[] activities = account.getActivitiesDataFrom(timestamp);
+		List<ActivityData> activities = account.getActivitiesDataFrom(timestamp);
 
 		for (ActivityData data : activities) {
 			System.out.println(data);
