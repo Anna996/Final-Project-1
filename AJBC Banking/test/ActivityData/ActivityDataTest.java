@@ -19,6 +19,12 @@ class ActivityDataTest {
 		balanceChange = 20.5;
 		activity = new ActivityData(ActivityName.DEPOSIT, timeStamp, info, balanceChange);
 	}
+	
+	@Test
+	void checkActivityName() {
+		assertEquals(ActivityName.DEPOSIT, activity.getActivityName());
+		assertNotEquals(ActivityName.PAY_BILL, activity.getActivityName());
+	}
 
 	@Test
 	void checkTimeStamp() {
